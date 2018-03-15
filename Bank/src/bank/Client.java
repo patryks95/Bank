@@ -1,6 +1,6 @@
 package bank;
 
-public class Client {
+public class Client { // Po co ta klasa ?
     private int ID;
     private String Name;
 

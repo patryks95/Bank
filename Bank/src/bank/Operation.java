@@ -8,6 +8,14 @@ public class Operation {
     private String Description;
     private int OperatorID;
 
+    public Operation(String type, Date operationDate, String description, int operatorID) {
+        this.Type = type;
+        this.OperationDate = operationDate;
+        this.Description = description;
+        this.OperatorID = operatorID;
+
+    }
+
     public String getType() {
         return Type;
     }

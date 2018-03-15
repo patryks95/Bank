@@ -1,64 +1,88 @@
 package bank;
 
 import java.math.BigDecimal;
+import java.security.acl.Owner;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Credit implements Product {
     private int OwnerID;
     private Date CreateDate;
-    private BigDecimal Balance;
+    private Account account;
+    private double Balance;
     private double Interest;
-    private List<Operation> History;
+    private List<Operation> History = new ArrayList<>();
+    private int durationTime;
+    private double creditAmount;
+    private String description;
 
-    @Override
-    public BigDecimal Payment(BigDecimal value) {
-        this.Balance.add(value);
-        return new BigDecimal( this.Balance.toString() );
+    public Credit(Date createDate, Account account, double balance, double interest,int time) {
+        this.CreateDate = createDate;
+        this.account = account;
+        this.Balance = balance;
+        this.Interest = interest;
+        this.durationTime = time;
+        description = "Kredyt na kwote: " + balance;
+    }
+
+
+    private void calculateCredit(double interest, double amount, double time) {
+            this.creditAmount = (amount * interest + amount);
     }
 
     @Override
-    public BigDecimal Payoff(BigDecimal value) {
-        this.Balance.subtract(value);
-        return new BigDecimal( this.Balance.toString() );
+    public void Payment(double value) {
+        account.SetBalance(account.GetBalance() + value);
+        calculateCredit(Interest, value, durationTime);
+        System.out.println("Musisz spłacic: " + creditAmount);
+        History.add(new Operation("Credit", CreateDate, description, OwnerID));
+
     }
 
     @Override
-    public BigDecimal GetBalance() {
-        return new BigDecimal( this.Balance.toString() );
+    public void Payoff(double value) {
+        account.SetBalance(account.GetBalance() -  value);
+
     }
 
     @Override
-    public double Interest() {
-        return 0;
+    public double GetBalance() {
+        return Balance;
+    }
+
+    @Override
+    public void SetBalance(double value) {
+
     }
 
     @Override
     public int GetOwnerID() {
-        return 0;
+        return OwnerID;
     }
 
     @Override
     public void SetOwnerID(int OwnerID) {
-
+        this.OwnerID = OwnerID;
     }
 
     @Override
     public double GetInterest() {
-        return 0;
+        return Interest;
     }
 
     @Override
     public void SetInterest(double Interest) {
+        this.Interest = Interest;
     }
 
     @Override
     public Date GetCreateDate() {
-        return null;
+        return CreateDate;
     }
 
     @Override
     public void SetCreateDate(Date aDate) {
-
+        this.CreateDate = aDate;
     }
 }

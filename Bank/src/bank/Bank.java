@@ -6,17 +6,15 @@ import java.util.*;
 
 public class Bank {
     private String Name;
-    private List<Account> Accounts = new ArrayList<Account>();
+    List<Account> Accounts = new ArrayList<Account>();
     private List<Operation> History =  new ArrayList<Operation>();
-    private Account account;
 
     public Bank(String aName) {
         this.Name = aName;
     }
 
-    public void createAccount(int id, LocalDateTime createDate, double balance, double interest) {
-        account = new Account(id, createDate, balance, interest);
-        Accounts.add(account);
+    public void createAccount(int id, LocalDateTime createDate, double balance, double interest, boolean canDebit) {
+        Accounts.add(new Account(id, createDate, balance, interest, canDebit) );
         History.add(new Operation("Account", createDate,"Zalozenie konta", id, balance));
         System.out.println("Stworzono konto");
     }
@@ -44,8 +42,8 @@ public class Bank {
 
     public static void main (String [] args) {
         Bank jakisBank = new Bank("Nasz bank");
-        jakisBank.createAccount(465,LocalDateTime.now(),50000,0.05);
-        jakisBank.createAccount(5000,LocalDateTime.now(), 4500, 0.03 );
+        jakisBank.createAccount(465,LocalDateTime.now(),50000,0.05, false);
+        jakisBank.createAccount(5000,LocalDateTime.now(), 4500, 0.03 , false);
         System.out.println(jakisBank.Accounts.get(0).GetBalance());
         System.out.println(jakisBank.Accounts.get(1).GetBalance());
         jakisBank.Accounts.get(0).startInvestment(LocalDateTime.now(),0.08,8000,365);

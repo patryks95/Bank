@@ -15,13 +15,15 @@ public class Account implements Product {
     private List<Operation> History;
     private Investment investment;
     private Credit credit;
+    private boolean CanDebit;
 
-    public Account(int ownerID, LocalDateTime createDate, double balance, double interest) {
+    public Account(int ownerID, LocalDateTime createDate, double balance, double interest, boolean canDebit) {
         OwnerID = ownerID;
         CreateDate = createDate;
         Balance = balance;
         Interest = interest;
         History = new ArrayList<>();
+        CanDebit = canDebit;
     }
 
     public void startInvestment(LocalDateTime createDate, double interest, double amount, int time) {
@@ -59,6 +61,10 @@ public class Account implements Product {
 
     @Override
     public void Payoff(double value, LocalDateTime date) {
+        if (this.Balance < value && !CanDebit) {
+            System.out.println("Not enough money for this operation");
+            return;
+        }
         this.Balance -= value;
         History.add(new Operation("Payoff", date, "Wyplata", OwnerID,value));
 
@@ -108,6 +114,14 @@ public class Account implements Product {
         for (int i = 0; i <History.size(); i++) {
             System.out.println(History.get(i).getType() + " " + History.get(i).getOperatorID() + " " + History.get(i).getDescription() + " " + History.get(i).getOperationDate());
         }
+    }
+
+    public boolean isCanDebit() {
+        return CanDebit;
+    }
+
+    public void setCanDebit(boolean canDebit) {
+        CanDebit = canDebit;
     }
 
 }

@@ -18,23 +18,24 @@ public class Credit implements Product {
     private double creditAmount;
     private String description;
 
-    public Credit(LocalDateTime createDate, Account account, double balance, double interest,int time) {
+    public Credit(LocalDateTime createDate, Account account, double balance, double interest, int time) {
         this.CreateDate = createDate;
         this.account = account;
         this.Balance = balance;
         this.Interest = interest;
         this.durationTime = time;
-        description = "Kredyt na kwote: " + balance;
+        this.account.SetBalance(this.account.GetBalance() + balance);
+        this.description = "Kredyt na kwote: " + balance;
     }
 
 
     private void calculateCredit(double interest, double amount, double time) {
-            this.creditAmount = (amount * interest + amount);
+            this.creditAmount = (Balance * interest + Balance - amount);
     }
 
     @Override
     public void Payment(double value, LocalDateTime dateTime) {
-        account.SetBalance(account.GetBalance() + value);
+        account.SetBalance(this.Balance - value);
         calculateCredit(Interest, value, durationTime);
         System.out.println("Musisz spłacic: " + creditAmount);
         History.add(new Operation("Credit", dateTime, description, OwnerID, value));
@@ -43,7 +44,7 @@ public class Credit implements Product {
 
     @Override
     public void Payoff(double value, LocalDateTime dateTime) {
-        account.SetBalance(account.GetBalance() -  value);
+        account.SetBalance(account.GetBalance() +  value);
 
     }
 
@@ -85,5 +86,15 @@ public class Credit implements Product {
     @Override
     public void SetCreateDate(LocalDateTime aDate) {
         this.CreateDate = aDate;
+    }
+
+
+    public static void main (String [] args) {
+        Bank jakisBank = new Bank("Nasz bank");
+        jakisBank.createAccount(465,LocalDateTime.now(),50000,0.05, false);
+        Account account = jakisBank.Accounts.get(0);
+        Credit credit = new Credit(LocalDateTime.now(), account, 100000, 0.05, 2);
+        credit.Payment(5250, LocalDateTime.now());
+
     }
 }

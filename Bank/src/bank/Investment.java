@@ -102,4 +102,6 @@ public class Investment implements Product {
     public void SetCreateDate(LocalDateTime aDate) {
         this.CreateDate = aDate;
     }
+
+
 }

@@ -1,14 +1,18 @@
 package bank;
 
+import sun.util.resources.cldr.lag.LocaleNames_lag;
+
 import java.math.BigDecimal;
 import java.security.acl.Owner;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Investment implements Product {
     private int OwnerID;
-    private Date CreateDate;
+    private LocalDateTime CreateDate;
     private double Balance;
     private Account ownerAccount;
     private double Interest;
@@ -17,7 +21,7 @@ public class Investment implements Product {
     private double income;
     private String description;
 
-    public Investment(Date createDate, Account ownerAccount, double interest, double amount,int time) {
+    public Investment(LocalDateTime createDate, Account ownerAccount, double interest, double amount,int time) {
         this.CreateDate = createDate;
         this.ownerAccount = ownerAccount;
         this.Interest = interest;
@@ -43,20 +47,20 @@ public class Investment implements Product {
         this.income = (amount * interest * time) / 365.0;
     }
 
-
     /**
      * Wpłata - rozpoczecie lokaty
      * @param value
      */
     @Override
-    public void Payment(double value) {
+    public void Payment(double value, LocalDateTime dateTime) {
         ownerAccount.SetBalance(ownerAccount.GetBalance() - value);
         calculateIncome(Interest, value, durationTime);
-        History.add(new Operation("Investment", CreateDate, description, OwnerID));
+        History.add(new Operation("Investment", dateTime, description, OwnerID, value));
+
     }
 
     @Override
-    public void Payoff(double value) {
+    public void Payoff(double value, LocalDateTime date) {
     }
 
     @Override
@@ -90,12 +94,12 @@ public class Investment implements Product {
     }
 
     @Override
-    public Date GetCreateDate() {
+    public LocalDateTime GetCreateDate() {
         return CreateDate;
     }
 
     @Override
-    public void SetCreateDate(Date aDate) {
+    public void SetCreateDate(LocalDateTime aDate) {
         this.CreateDate = aDate;
     }
 }

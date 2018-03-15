@@ -1,20 +1,22 @@
 package bank;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Account implements Product {
     private int OwnerID;
-    private Date CreateDate;
+    private LocalDateTime CreateDate;
     private double Balance;
     private double Interest;
     private List<Operation> History;
     private Investment investment;
     private Credit credit;
 
-    public Account(int ownerID, Date createDate, double balance, double interest) {
+    public Account(int ownerID, LocalDateTime createDate, double balance, double interest) {
         OwnerID = ownerID;
         CreateDate = createDate;
         Balance = balance;
@@ -22,37 +24,44 @@ public class Account implements Product {
         History = new ArrayList<>();
     }
 
-    public void startInvestment(Date createDate, double interest, double amount, int time) {
+    public void startInvestment(LocalDateTime createDate, double interest, double amount, int time) {
         investment = new Investment(createDate,this, interest, amount, time);
-        investment.Payment(amount);
+        investment.Payment(amount, createDate);
         String description = "Lokata na: " + time + " dni na kwote: " + amount + " z oprocentowaniem: " + interest + ". Zalozona: " + createDate.toString();
-        History.add(new Operation("Investment",createDate, description,OwnerID));
+        History.add(new Operation("Investment",createDate, description,OwnerID, amount));
     }
 
     public void stopInvestmentEarly() {
-        if(investment != null)
+        if(investment != null) {
             investment.endInvestmentEarly();
+            investment = null;
+        }
         else {
             System.out.println("You don't have any active investments");
         }
     }
 
     public void stopInvestmentNormal() {
-        if(investment != null)
+        if(investment != null) {
             investment.endInvestmentNormal();
+            investment = null;
+        }
         else {
             System.out.println("You don't have any active investments");
         }
     }
 
     @Override
-    public void Payment(double value) {
+    public void Payment(double value, LocalDateTime date) {
         this.Balance += value;
+        History.add(new Operation("Payment", date, "Wplata", OwnerID,value));
     }
 
     @Override
-    public void Payoff(double value) {
+    public void Payoff(double value, LocalDateTime date) {
         this.Balance -= value;
+        History.add(new Operation("Payoff", date, "Wyplata", OwnerID,value));
+
     }
 
     @Override
@@ -85,12 +94,12 @@ public class Account implements Product {
     }
 
     @Override
-    public Date GetCreateDate() {
+    public LocalDateTime GetCreateDate() {
         return CreateDate;
     }
 
     @Override
-    public void SetCreateDate(Date aDate) {
+    public void SetCreateDate(LocalDateTime aDate) {
         this.CreateDate = aDate;
     }
 

@@ -1,18 +1,30 @@
 package bank;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Operation {
     private String Type;
-    private Date OperationDate;
+    private LocalDateTime OperationDate;
     private String Description;
     private int OperatorID;
 
-    public Operation(String type, Date operationDate, String description, int operatorID) {
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    private double amount;
+
+    public Operation(String type, LocalDateTime operationDate, String description, int operatorID, double amount) {
         this.Type = type;
         this.OperationDate = operationDate;
         this.Description = description;
         this.OperatorID = operatorID;
+        this.amount = amount;
 
     }
 
@@ -24,11 +36,11 @@ public class Operation {
         Type = type;
     }
 
-    public Date getOperationDate() {
+    public LocalDateTime getOperationDate() {
         return OperationDate;
     }
 
-    public void setOperationDate(Date operationDate) {
+    public void setOperationDate(LocalDateTime operationDate) {
         OperationDate = operationDate;
     }
 

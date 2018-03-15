@@ -2,13 +2,14 @@ package bank;
 
 import java.math.BigDecimal;
 import java.security.acl.Owner;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Credit implements Product {
     private int OwnerID;
-    private Date CreateDate;
+    private LocalDateTime CreateDate;
     private Account account;
     private double Balance;
     private double Interest;
@@ -17,7 +18,7 @@ public class Credit implements Product {
     private double creditAmount;
     private String description;
 
-    public Credit(Date createDate, Account account, double balance, double interest,int time) {
+    public Credit(LocalDateTime createDate, Account account, double balance, double interest,int time) {
         this.CreateDate = createDate;
         this.account = account;
         this.Balance = balance;
@@ -32,16 +33,16 @@ public class Credit implements Product {
     }
 
     @Override
-    public void Payment(double value) {
+    public void Payment(double value, LocalDateTime dateTime) {
         account.SetBalance(account.GetBalance() + value);
         calculateCredit(Interest, value, durationTime);
         System.out.println("Musisz spłacic: " + creditAmount);
-        History.add(new Operation("Credit", CreateDate, description, OwnerID));
+        History.add(new Operation("Credit", dateTime, description, OwnerID, value));
 
     }
 
     @Override
-    public void Payoff(double value) {
+    public void Payoff(double value, LocalDateTime dateTime) {
         account.SetBalance(account.GetBalance() -  value);
 
     }
@@ -77,12 +78,12 @@ public class Credit implements Product {
     }
 
     @Override
-    public Date GetCreateDate() {
+    public LocalDateTime GetCreateDate() {
         return CreateDate;
     }
 
     @Override
-    public void SetCreateDate(Date aDate) {
+    public void SetCreateDate(LocalDateTime aDate) {
         this.CreateDate = aDate;
     }
 }

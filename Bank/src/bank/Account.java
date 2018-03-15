@@ -30,36 +30,37 @@ public class Account implements Product {
 
     @Override
     public double Interest() {
-        return 0;
+        return Interest;
     }
 
     @Override
     public int GetOwnerID() {
-        return 0;
+        return OwnerID;
     }
 
     @Override
     public void SetOwnerID(int OwnerID) {
-
+    	this.OwnerID=OwnerID;
     }
 
     @Override
     public double GetInterest() {
-        return 0;
+        return Interest;
     }
 
     @Override
     public void SetInterest(double Interest) {
+    	this.Interest=Interest;
     }
 
     @Override
     public Date GetCreateDate() {
-        return null;
+        return CreateDate;
     }
 
     @Override
     public void SetCreateDate(Date aDate) {
-
+    	CreateDate=aDate;
     }
 
 }

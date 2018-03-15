@@ -3,6 +3,8 @@ package bank;
 public class Client {
     private int ID;
     private String Name;
+    private String Surname;
+
 
     public int getID() {
         return ID;
@@ -28,7 +30,6 @@ public class Client {
         Surname = surname;
     }
 
-    private String Surname;
 
 }
 

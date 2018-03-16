@@ -13,8 +13,18 @@ public class Credit implements Product {
     private Account account;
     private double Balance;
     private double Interest;
+
+    public List<Operation> getHistory() {
+        return History;
+    }
+
     private List<Operation> History = new ArrayList<>();
     private int durationTime;
+
+    public double getCreditAmount() {
+        return creditAmount;
+    }
+
     private double creditAmount;
     private String description;
 
@@ -25,26 +35,33 @@ public class Credit implements Product {
         this.Interest = interest;
         this.durationTime = time;
         this.account.SetBalance(this.account.GetBalance() + balance);
+        calculateCredit();
         this.description = "Kredyt na kwote: " + balance;
+        System.out.println("Musisz spłacic: " + creditAmount);
     }
 
 
-    private void calculateCredit(double interest, double amount, double time) {
-            this.creditAmount = (Balance * interest + Balance - amount);
+    private void calculateCredit() {
+            this.creditAmount = (Balance * Interest + Balance);
     }
 
     @Override
     public void Payment(double value, LocalDateTime dateTime) {
-        account.SetBalance(this.Balance - value);
-        calculateCredit(Interest, value, durationTime);
-        System.out.println("Musisz spłacic: " + creditAmount);
+        account.SetBalance(account.GetBalance() - value);
+        this.creditAmount -= value;
+        if (this.creditAmount == 0.0) {
+            System.out.println("Kredyt został spłacony");
+        } else {
+            System.out.println("Musisz spłacic: " + creditAmount);
+        }
+
         History.add(new Operation("Credit", dateTime, description, OwnerID, value));
 
     }
 
     @Override
     public void Payoff(double value, LocalDateTime dateTime) {
-        account.SetBalance(account.GetBalance() +  value);
+        //account.SetBalance(account.GetBalance() +  Balance);
 
     }
 

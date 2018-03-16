@@ -5,8 +5,12 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 public class Bank {
+    public String getName() {
+        return Name;
+    }
+
     private String Name;
-    List<Account> Accounts = new ArrayList<Account>();
+    public List<Account> Accounts = new ArrayList<Account>();
     private List<Operation> History =  new ArrayList<Operation>();
 
     public Bank(String aName) {

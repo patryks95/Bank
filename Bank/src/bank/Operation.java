@@ -8,6 +8,7 @@ public class Operation {
     private LocalDateTime OperationDate;
     private String Description;
     private int OperatorID;
+    private double amount;
 
     public double getAmount() {
         return amount;
@@ -17,7 +18,6 @@ public class Operation {
         this.amount = amount;
     }
 
-    private double amount;
 
     public Operation(String type, LocalDateTime operationDate, String description, int operatorID, double amount) {
         this.Type = type;

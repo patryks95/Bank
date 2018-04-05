@@ -11,8 +11,8 @@ public interface Product {
      void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney;
      void Transfer(Product another_product, double value, String desc, int OperatorID) throws NotEnoughMoney;
      void AddOperation(Operation operation);
-     double getAccountState();
-     void setAccountState(double value);
+     double GetBalance();
+     void SetBalance(double value);
      int GetOwnerID();
      void SetOwnerID(int OwnerID);
      LocalDateTime GetCreateDate();

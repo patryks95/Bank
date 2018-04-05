@@ -6,79 +6,89 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import bank.Exceptions.*;
 
 public class Account implements Product {
-    private int OwnerID;
-    private LocalDateTime CreateDate;
-    private double Balance;
-    private double Interest;
-    private List<Operation> History;
-    private Investment investment;
-    private Credit credit;
-    private boolean CanDebit;
+    private int OwnerID;    //ID Właściciela konta
+    private LocalDateTime CreateDate; //Data utworzenia
+    private double AccountState;    //Stan konta
+    private ArrayList<Operation> History;   //Historia konta
+    private Investment investment = null;   //Lokata
+    private boolean CanDebit;   //Możliwość debetu
 
-    public Account(int ownerID, LocalDateTime createDate, double balance, double interest, boolean canDebit) {
-        OwnerID = ownerID;
+
+    public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit) {
+        SetOwnerID(ownerID);
+        SetCreateDate(createDate);
+        setAccountState(accountState);
         CreateDate = createDate;
-        Balance = balance;
-        Interest = interest;
+        setCanDebit(canDebit);
         History = new ArrayList<>();
-        CanDebit = canDebit;
     }
 
-    public void startInvestment(LocalDateTime createDate, double interest, double amount, int time) {
-        investment = new Investment(createDate,this, interest, amount, time);
-        investment.Payment(amount, createDate);
-        String description = "Lokata na: " + time + " dni na kwote: " + amount + " z oprocentowaniem: " + interest + ". Zalozona: " + createDate.toString();
-        History.add(new Operation("Investment",createDate, description,OwnerID, amount));
+    /*
+    Przelew
+
+    Jeśli value jest dodatnie wtedy jest to przelew na bierzące konto z another_product
+    Jeśli ujemne - wtedy jest to przelew z bierzącego na another_product
+     */
+    @Override
+    public void Transfer(Product another_product, double value, String Desc, int OperatorID) throws NotEnoughMoney {
+        if (value > 0) {
+            another_product.Payoff(value, LocalDateTime.now(), Desc, OperatorID);
+            this.Payment(value, LocalDateTime.now(), Desc, OperatorID);
+        } else {
+            value = Math.abs(value);
+            this.Payoff(value, LocalDateTime.now(), Desc, OperatorID);
+            another_product.Payment(value, LocalDateTime.now(), Desc, OperatorID);
+        }
     }
 
-    public void stopInvestmentEarly() {
-        if(investment != null) {
-            investment.endInvestmentEarly();
-            investment = null;
-        }
-        else {
-            System.out.println("You don't have any active investments");
-        }
+    /*
+    Lokata
+
+    Pobieranie lokaty danego konta
+     */
+
+    public Investment getInvestment() {
+        return investment;
     }
 
-    public void stopInvestmentNormal() {
-        if(investment != null) {
-            investment.endInvestmentNormal();
-            investment = null;
-        }
-        else {
-            System.out.println("You don't have any active investments");
-        }
+    /*
+    Lokata
+
+    Tworzenie lokaty dla danego konta
+     */
+
+    public void setInvestment(Investment investment) {
+        this.investment = investment;
+    }
+
+
+    public void AddOperation(Operation operation) {
+        this.History.add(operation);
+    }
+
+
+    @Override
+    public void Payment(double value, LocalDateTime date, String Desc, int OperatorID) {
+        this.setAccountState(this.getAccountState() + value);
+        this.AddOperation(new Operation(Operation_Types.WPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
+
     }
 
     @Override
-    public void Payment(double value, LocalDateTime date) {
-        this.Balance += value;
-        History.add(new Operation("Payment", date, "Wplata", OwnerID,value));
-    }
-
-    @Override
-    public void Payoff(double value, LocalDateTime date) {
-        if (this.Balance < value && !CanDebit) {
-            System.out.println("Not enough money for this operation");
-            return;
+    public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {
+        if (this.getAccountState() < value && !CanDebit) {
+            throw new NotEnoughMoney();
         }
-        this.Balance -= value;
-        History.add(new Operation("Payoff", date, "Wyplata", OwnerID,value));
+
+        this.setAccountState(this.getAccountState() + value);
+        this.AddOperation(new Operation(Operation_Types.WYPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
 
     }
 
-    @Override
-    public double GetBalance() {
-        return Balance;
-    }
 
-    @Override
-    public void SetBalance(double value) {
-        this.Balance = value;
-    }
 
     @Override
     public int GetOwnerID() {
@@ -91,15 +101,6 @@ public class Account implements Product {
     }
 
     @Override
-    public double GetInterest() {
-        return Interest;
-    }
-
-    @Override
-    public void SetInterest(double Interest) {
-    }
-
-    @Override
     public LocalDateTime GetCreateDate() {
         return CreateDate;
     }
@@ -109,12 +110,16 @@ public class Account implements Product {
         this.CreateDate = aDate;
     }
 
-    public void showHistory() {
-        System.out.println("Historia konta");
-        for (int i = 0; i <History.size(); i++) {
-            System.out.println(History.get(i).getType() + " " + History.get(i).getOperatorID() + " " + History.get(i).getDescription() + " " + History.get(i).getOperationDate());
-        }
+    @Override
+    public double getAccountState() {
+        return AccountState;
     }
+
+    @Override
+    public void setAccountState(double accountState) {
+        AccountState = accountState;
+    }
+
 
     public boolean isCanDebit() {
         return CanDebit;

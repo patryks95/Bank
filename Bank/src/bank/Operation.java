@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Operation {
-    private String Type;
+    private Operation_Types Type;
     private LocalDateTime OperationDate;
     private String Description;
     private int OperatorID;
@@ -19,7 +19,7 @@ public class Operation {
     }
 
 
-    public Operation(String type, LocalDateTime operationDate, String description, int operatorID, double amount) {
+    public Operation(Operation_Types type, LocalDateTime operationDate, String description, int operatorID, double amount) {
         this.Type = type;
         this.OperationDate = operationDate;
         this.Description = description;
@@ -28,11 +28,11 @@ public class Operation {
 
     }
 
-    public String getType() {
+    public Operation_Types getType() {
         return Type;
     }
 
-    public void setType(String type) {
+    public void setType(Operation_Types type) {
         Type = type;
     }
 

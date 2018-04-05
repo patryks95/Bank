@@ -11,7 +11,7 @@ import bank.Exceptions.*;
 public class Account implements Product {
     private int OwnerID;    //ID Właściciela konta
     private LocalDateTime CreateDate; //Data utworzenia
-    private double AccountState;    //Stan konta
+    private double Balance;    //Stan konta
     private ArrayList<Operation> History;   //Historia konta
     private Investment investment = null;   //Lokata
     private boolean CanDebit;   //Możliwość debetu
@@ -20,13 +20,54 @@ public class Account implements Product {
     public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit, int OperatorID) {
         SetOwnerID(ownerID);
         SetCreateDate(createDate);
-        setAccountState(accountState);
+        SetBalance(accountState);
         CreateDate = createDate;
         setCanDebit(canDebit);
         History = new ArrayList<>();
 
-        AddOperation(new Operation(Operation_Types.UTWORZENIE, createDate, "Utorzenie konta", OperatorID, accountState));
+        AddOperation(new Operation(ownerID, Operation_Types.UTWORZENIE, createDate, "Utorzenie konta", OperatorID, accountState));
     }
+
+
+    @Override
+    public int GetOwnerID() {
+        return OwnerID;
+    }
+
+    @Override
+    public void SetOwnerID(int OwnerID) {
+        this.OwnerID = OwnerID;
+    }
+
+    @Override
+    public LocalDateTime GetCreateDate() {
+        return CreateDate;
+    }
+
+    @Override
+    public void SetCreateDate(LocalDateTime aDate) {
+        this.CreateDate = aDate;
+    }
+
+    @Override
+    public double GetBalance() {
+        return Balance;
+    }
+
+    @Override
+    public void SetBalance(double balance) {
+        Balance = balance;
+    }
+
+
+    public boolean isCanDebit() {
+        return CanDebit;
+    }
+
+    public void setCanDebit(boolean canDebit) {
+        CanDebit = canDebit;
+    }
+
 
     /*
     Przelew
@@ -89,8 +130,8 @@ public class Account implements Product {
 
     @Override
     public void Payment(double value, LocalDateTime date, String Desc, int OperatorID) {
-        this.setAccountState(this.getAccountState() + value);
-        this.AddOperation(new Operation(Operation_Types.WPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
+        this.SetBalance(this.GetBalance() + value);
+        this.AddOperation(new Operation(GetOwnerID(), Operation_Types.WPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
 
     }
 
@@ -106,54 +147,14 @@ public class Account implements Product {
 
     @Override
     public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {
-        if (this.getAccountState() < value && !CanDebit) {
+        if (this.GetBalance() < value && !CanDebit) {
             throw new NotEnoughMoney();
         }
 
-        this.setAccountState(this.getAccountState() + value);
-        this.AddOperation(new Operation(Operation_Types.WYPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
+        this.SetBalance(this.GetBalance() + value);
+        this.AddOperation(new Operation(GetOwnerID(), Operation_Types.WYPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
 
     }
 
-
-
-    @Override
-    public int GetOwnerID() {
-        return OwnerID;
-    }
-
-    @Override
-    public void SetOwnerID(int OwnerID) {
-        this.OwnerID = OwnerID;
-    }
-
-    @Override
-    public LocalDateTime GetCreateDate() {
-        return CreateDate;
-    }
-
-    @Override
-    public void SetCreateDate(LocalDateTime aDate) {
-        this.CreateDate = aDate;
-    }
-
-    @Override
-    public double getAccountState() {
-        return AccountState;
-    }
-
-    @Override
-    public void setAccountState(double accountState) {
-        AccountState = accountState;
-    }
-
-
-    public boolean isCanDebit() {
-        return CanDebit;
-    }
-
-    public void setCanDebit(boolean canDebit) {
-        CanDebit = canDebit;
-    }
 
 }

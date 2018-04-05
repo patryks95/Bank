@@ -17,13 +17,15 @@ public class Account implements Product {
     private boolean CanDebit;   //Możliwość debetu
 
 
-    public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit) {
+    public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit, int OperatorID) {
         SetOwnerID(ownerID);
         SetCreateDate(createDate);
         setAccountState(accountState);
         CreateDate = createDate;
         setCanDebit(canDebit);
         History = new ArrayList<>();
+
+        AddOperation(new Operation(Operation_Types.UTWORZENIE, createDate, "Utorzenie konta", OperatorID, accountState));
     }
 
     /*

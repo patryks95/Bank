@@ -64,6 +64,7 @@ public class Account implements Product {
 
     public void setInvestment(Investment investment) {
         this.investment = investment;
+        AddOperation(new Operation(OwnerID, Operation_Types.LOKATA, LocalDateTime.now(),"Zalozenie lokaty", OwnerID, investment.GetBalance()));
     }
 
 
@@ -120,7 +121,7 @@ public class Account implements Product {
             throw new NotEnoughMoney();
         }
 
-        this.SetBalance(this.GetBalance() + value);
+        this.SetBalance(this.GetBalance() - value);
         this.AddOperation(new Operation(OwnerID, Operation_Types.WYPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
 
     }
@@ -154,9 +155,4 @@ public class Account implements Product {
     public void setCanDebit(boolean canDebit) {
         CanDebit = canDebit;
     }
-
-    public static void main(String [] args) {
-        System.out.println(LocalDateTime.now());
-    }
-
 }

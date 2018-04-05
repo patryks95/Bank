@@ -33,7 +33,7 @@ public class Investment implements Product {
      * Zakończenie lokaty - rozne warianty
      */
     public void endInvestmentEarly() {
-        ownerAccount.SetBalance(ownerAccount.GetBalance() + Balance - income);
+        ownerAccount.SetBalance(ownerAccount.GetBalance() + Balance);
     }
 
     public void endInvestmentNormal() {
@@ -42,7 +42,7 @@ public class Investment implements Product {
 
     private void calculateIncome(double interest, double amount, int time) {
 
-        this.income = (amount * interest * time) / 365.0;
+        this.income = (amount * interest * time) / 12;
     }
 
     /**
@@ -51,9 +51,8 @@ public class Investment implements Product {
      */
     @Override
     public void Payment(double value, LocalDateTime dateTime, String description, int operatorID) {
-        ownerAccount.SetBalance(ownerAccount.GetBalance() - value);
+        //ownerAccount.SetBalance(ownerAccount.GetBalance() - value);
         calculateIncome(Interest, value, durationTime);
-
     }
 
     @Override

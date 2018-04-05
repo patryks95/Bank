@@ -36,11 +36,11 @@ public class Bank {
     }
 
     public void stopInvestmentEarly(int account) {
-        Accounts.get(account).stopInvestmentEarly();
+        Accounts.get(account).getInvestment().endInvestmentEarly();
     }
 
     public void stopInvestmentNormal(int account) {
-        Accounts.get(account).stopInvestmentNormal();
+        Accounts.get(account).getInvestment().endInvestmentNormal();
     }
 
 
@@ -50,13 +50,14 @@ public class Bank {
         jakisBank.createAccount(5000,LocalDateTime.now(), 4500, 0.03 , false);
         System.out.println(jakisBank.Accounts.get(0).GetBalance());
         System.out.println(jakisBank.Accounts.get(1).GetBalance());
-        jakisBank.Accounts.get(0).startInvestment(LocalDateTime.now(),0.08,8000,365);
+        System.out.println(LocalDateTime.now());
+        jakisBank.Accounts.get(0).setInvestment(new Investment(LocalDateTime.now(),jakisBank.Accounts.get(0),0.08,8000,12));
         System.out.println(jakisBank.Accounts.get(0).GetBalance());
-        jakisBank.Accounts.get(0).stopInvestmentNormal();
+        jakisBank.Accounts.get(0).getInvestment().endInvestmentNormal();
         System.out.println(jakisBank.Accounts.get(0).GetBalance());
-        jakisBank.Accounts.get(0).startInvestment(LocalDateTime.now(), 0.1, 9000, 450);
+        jakisBank.Accounts.get(0).setInvestment(new Investment(LocalDateTime.now(),jakisBank.Accounts.get(0),0.1,9000,6));
         System.out.println(jakisBank.Accounts.get(0).GetBalance());
-        jakisBank.Accounts.get(0).stopInvestmentEarly();
+        jakisBank.Accounts.get(0).getInvestment().endInvestmentEarly();
         System.out.println(jakisBank.Accounts.get(0).GetBalance());
 
 

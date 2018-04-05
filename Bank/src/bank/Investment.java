@@ -1,13 +1,11 @@
 package bank;
 
-import sun.util.resources.cldr.lag.LocaleNames_lag;
+import bank.Exceptions.NotEnoughMoney;
 
-import java.math.BigDecimal;
-import java.security.acl.Owner;
-import java.time.LocalDate;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Investment implements Product {
@@ -52,16 +50,31 @@ public class Investment implements Product {
      * @param value
      */
     @Override
-    public void Payment(double value, LocalDateTime dateTime) {
+    public void Payment(double value, LocalDateTime dateTime, String description, int operatorID) {
         ownerAccount.SetBalance(ownerAccount.GetBalance() - value);
         calculateIncome(Interest, value, durationTime);
-        History.add(new Operation("Investment", dateTime, description, OwnerID, value));
 
     }
 
     @Override
-    public void Payoff(double value, LocalDateTime date) {
+    public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {
+        if(ChronoUnit.MONTHS.between(date,CreateDate) == durationTime) {
+            ownerAccount.SetBalance(ownerAccount.GetBalance() + Balance + income);
+        } else {
+            ownerAccount.SetBalance(ownerAccount.GetBalance() + Balance);
+
+        }
     }
+
+    @Override
+    public void Transfer(Product another_product, double value, String desc, int OperatorID) throws NotEnoughMoney {
+    }
+
+    @Override
+    public void AddOperation(Operation operation) {
+        this.History.add(operation);
+    }
+
 
     @Override
     public double GetBalance() {
@@ -81,16 +94,6 @@ public class Investment implements Product {
     @Override
     public void SetOwnerID(int OwnerID) {
         this.OwnerID = OwnerID;
-    }
-
-    @Override
-    public double GetInterest() {
-        return Interest;
-    }
-
-    @Override
-    public void SetInterest(double Interest) {
-        this.Interest = Interest;
     }
 
     @Override

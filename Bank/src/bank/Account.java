@@ -11,7 +11,7 @@ import bank.Exceptions.*;
 public class Account implements Product {
     private int OwnerID;    //ID Właściciela konta
     private LocalDateTime CreateDate; //Data utworzenia
-    private double Balance;    //Stan konta
+    private double AccountState;    //Stan konta
     private ArrayList<Operation> History;   //Historia konta
     private Investment investment = null;   //Lokata
     private boolean CanDebit;   //Możliwość debetu
@@ -27,47 +27,6 @@ public class Account implements Product {
 
         AddOperation(new Operation(ownerID, Operation_Types.UTWORZENIE, createDate, "Utorzenie konta", OperatorID, accountState));
     }
-
-
-    @Override
-    public int GetOwnerID() {
-        return OwnerID;
-    }
-
-    @Override
-    public void SetOwnerID(int OwnerID) {
-        this.OwnerID = OwnerID;
-    }
-
-    @Override
-    public LocalDateTime GetCreateDate() {
-        return CreateDate;
-    }
-
-    @Override
-    public void SetCreateDate(LocalDateTime aDate) {
-        this.CreateDate = aDate;
-    }
-
-    @Override
-    public double GetBalance() {
-        return Balance;
-    }
-
-    @Override
-    public void SetBalance(double balance) {
-        Balance = balance;
-    }
-
-
-    public boolean isCanDebit() {
-        return CanDebit;
-    }
-
-    public void setCanDebit(boolean canDebit) {
-        CanDebit = canDebit;
-    }
-
 
     /*
     Przelew
@@ -120,6 +79,16 @@ public class Account implements Product {
         this.History.add(operation);
     }
 
+    @Override
+    public double GetBalance() {
+        return AccountState;
+    }
+
+    @Override
+    public void SetBalance(double value) {
+        this.AccountState = value;
+    }
+
 
     /*
    Wplata
@@ -131,7 +100,7 @@ public class Account implements Product {
     @Override
     public void Payment(double value, LocalDateTime date, String Desc, int OperatorID) {
         this.SetBalance(this.GetBalance() + value);
-        this.AddOperation(new Operation(GetOwnerID(), Operation_Types.WPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
+        this.AddOperation(new Operation(OwnerID,Operation_Types.WPLATA, LocalDateTime.now(), Desc, OperatorID, value));
 
     }
 
@@ -152,9 +121,42 @@ public class Account implements Product {
         }
 
         this.SetBalance(this.GetBalance() + value);
-        this.AddOperation(new Operation(GetOwnerID(), Operation_Types.WYPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
+        this.AddOperation(new Operation(OwnerID, Operation_Types.WYPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
 
     }
 
+
+
+    @Override
+    public int GetOwnerID() {
+        return OwnerID;
+    }
+
+    @Override
+    public void SetOwnerID(int OwnerID) {
+        this.OwnerID = OwnerID;
+    }
+
+    @Override
+    public LocalDateTime GetCreateDate() {
+        return CreateDate;
+    }
+
+    @Override
+    public void SetCreateDate(LocalDateTime aDate) {
+        this.CreateDate = aDate;
+    }
+
+    public boolean isCanDebit() {
+        return CanDebit;
+    }
+
+    public void setCanDebit(boolean canDebit) {
+        CanDebit = canDebit;
+    }
+
+    public static void main(String [] args) {
+        System.out.println(LocalDateTime.now());
+    }
 
 }

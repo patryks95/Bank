@@ -67,10 +67,25 @@ public class Account implements Product {
     }
 
 
+    /*
+   Historia
+
+   Dodanie wpisu do historii konta
+    */
+
+
+    @Override
     public void AddOperation(Operation operation) {
         this.History.add(operation);
     }
 
+
+    /*
+   Wplata
+
+   Wpłata na konto
+   Po udanej operacji dodawany jest wpis do historii
+    */
 
     @Override
     public void Payment(double value, LocalDateTime date, String Desc, int OperatorID) {
@@ -78,6 +93,16 @@ public class Account implements Product {
         this.AddOperation(new Operation(Operation_Types.WPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
 
     }
+
+
+    /*
+   Wypłata
+
+   Wypłata z konta
+   W przypadku braku wystarczających środków rzucany jest wyjątek NotEnoughMoney
+   Po udanej operacji dodawany jest wpis do historii
+    */
+
 
     @Override
     public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {

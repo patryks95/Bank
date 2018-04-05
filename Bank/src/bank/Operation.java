@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Operation {
+    private int OwnerID;
     private Operation_Types Type;
     private LocalDateTime OperationDate;
     private String Description;
@@ -19,7 +20,8 @@ public class Operation {
     }
 
 
-    public Operation(Operation_Types type, LocalDateTime operationDate, String description, int operatorID, double amount) {
+    public Operation(int OwnerID, Operation_Types type, LocalDateTime operationDate, String description, int operatorID, double amount) {
+        this.OwnerID = OwnerID;
         this.Type = type;
         this.OperationDate = operationDate;
         this.Description = description;

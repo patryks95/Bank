@@ -1,5 +1,8 @@
 package bank;
 
+import bank.Exceptions.NoOwnerID;
+import bank.Exceptions.NotEnoughMoney;
+
 import javax.xml.crypto.Data;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -16,6 +19,39 @@ public class Bank {
     public Bank(String aName) {
         this.Name = aName;
     }
+
+
+    public Account FindAccount(int OwnerID) throws NoOwnerID {
+        for (Account a : Accounts) {
+            if (a.GetOwnerID() == OwnerID) {
+                return a;
+            }
+        }
+
+        throw new NoOwnerID();
+    }
+
+
+    public void MakeTransfer(int SourceOwnerID, int DestionationOnerID, double Value, String Desc, int OperatorID) {
+        try {
+            Account source = FindAccount(SourceOwnerID);
+            Account destionation = FindAccount(DestionationOnerID);
+
+            destionation.Transfer(source, Value, Desc, OperatorID);
+
+        } catch (NoOwnerID e) {
+            System.err.println("Nie znaleziono klienta");
+        }
+
+        catch (NotEnoughMoney e) {
+            System.err.println("Klient nie dysponuje takimi środkami");
+        }
+
+        catch (Exception e) {
+            System.err.println("Błąd wysyłania przelewu");
+        }
+    }
+
 
     public void createAccount(int id, LocalDateTime createDate, double balance, double interest, boolean canDebit) {
         Accounts.add(new Account(id, createDate, balance, canDebit, id) );

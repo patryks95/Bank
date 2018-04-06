@@ -1,6 +1,7 @@
 package bank;
 
 import bank.Exceptions.NotEnoughMoney;
+import interest.Interest;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -28,6 +29,23 @@ public class Investment implements Product {
         this.durationTime = time;
         description = "Lokata na: " + durationTime + " dni na kwote: " + amount + " z oprocentowaniem: " + interest + ". Zalozona: " + createDate.toString();
     }
+    private Interest interest;
+    
+
+	public void setInterest(Interest interest) {
+		this.interest = interest;
+	}
+	public double CalculateInterestRate() 
+	{
+		if(interest==null) {
+			return 0;
+		}
+		else 
+		{
+			return interest.CalculateInterest(this);
+		}
+	}
+    
 
     /**
      * Zakończenie lokaty - rozne warianty

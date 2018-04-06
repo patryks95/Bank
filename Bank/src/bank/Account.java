@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import bank.Exceptions.*;
+import interest.Interest;
 
 public class Account implements Product {
     private int OwnerID;    //ID Właściciela konta
     private LocalDateTime CreateDate; //Data utworzenia
-    private double AccountState;    //Stan konta
+    private double Balance;    //Stan konta
     private ArrayList<Operation> History;   //Historia konta
     private Investment investment = null;   //Lokata
     private boolean CanDebit;   //Możliwość debetu
-
+    
 
     public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit, int OperatorID) {
         SetOwnerID(ownerID);
@@ -28,6 +29,24 @@ public class Account implements Product {
         AddOperation(new Operation(ownerID, Operation_Types.UTWORZENIE, createDate, "Utorzenie konta", OperatorID, accountState));
     }
 
+    private Interest interest;
+    
+
+	public void setInterest(Interest interest) {
+		this.interest = interest;
+	}
+	public double CalculateInterestRate() 
+	{
+		if(interest==null) {
+			return 0;
+		}
+		else 
+		{
+			return interest.CalculateInterest(this);
+		}
+	}
+    
+    
     /*
     Przelew
 
@@ -55,6 +74,7 @@ public class Account implements Product {
     public Investment getInvestment() {
         return investment;
     }
+    
 
     /*
     Lokata
@@ -82,12 +102,12 @@ public class Account implements Product {
 
     @Override
     public double GetBalance() {
-        return AccountState;
+        return Balance;
     }
 
     @Override
     public void SetBalance(double value) {
-        this.AccountState = value;
+        this.Balance = value;
     }
 
 
@@ -155,4 +175,6 @@ public class Account implements Product {
     public void setCanDebit(boolean canDebit) {
         CanDebit = canDebit;
     }
+
+	
 }

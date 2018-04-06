@@ -1,8 +1,5 @@
 package bank;
 
-import bank.Exceptions.NotEnoughMoney;
-import interest.Interest;
-
 import java.math.BigDecimal;
 import java.security.acl.Owner;
 import java.time.LocalDateTime;
@@ -17,28 +14,6 @@ public class Credit implements Product {
     private double Balance;
     private double Interest;
 
-    private Interest interest;
-    
-
-	public void setInterest(Interest interest) {
-		this.interest = interest;
-	}
-	public double CalculateInterestRate() 
-	{
-		if(interest==null) {
-			return 0;
-		}
-		else 
-		{
-			return interest.CalculateInterest(this);
-		}
-	}
-    
-	
-	
-	
-	
-	
     public List<Operation> getHistory() {
         return History;
     }
@@ -70,10 +45,8 @@ public class Credit implements Product {
             this.creditAmount = (Balance * Interest + Balance);
     }
 
-
-
     @Override
-    public void Payment(double value, LocalDateTime date, String Desc, int OperatorID) {
+    public void Payment(double value, LocalDateTime dateTime) {
         account.SetBalance(account.GetBalance() - value);
         this.creditAmount -= value;
         if (this.creditAmount == 0.0) {
@@ -82,22 +55,14 @@ public class Credit implements Product {
             System.out.println("Musisz spłacic: " + creditAmount);
         }
 
-        AddOperation(new Operation(OwnerID, Operation_Types.KREDYT, date, Desc, OwnerID, value));
-    }
-
-    @Override
-    public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {
+        History.add(new Operation("Credit", dateTime, description, OwnerID, value));
 
     }
 
     @Override
-    public void Transfer(Product another_product, double value, String desc, int OperatorID) throws NotEnoughMoney {
+    public void Payoff(double value, LocalDateTime dateTime) {
+        //account.SetBalance(account.GetBalance() +  Balance);
 
-    }
-
-    @Override
-    public void AddOperation(Operation operation) {
-        this.History.add(operation);
     }
 
     @Override
@@ -120,6 +85,15 @@ public class Credit implements Product {
         this.OwnerID = OwnerID;
     }
 
+    @Override
+    public double GetInterest() {
+        return Interest;
+    }
+
+    @Override
+    public void SetInterest(double Interest) {
+        this.Interest = Interest;
+    }
 
     @Override
     public LocalDateTime GetCreateDate() {
@@ -131,4 +105,13 @@ public class Credit implements Product {
         this.CreateDate = aDate;
     }
 
+
+    public static void main (String [] args) {
+        Bank jakisBank = new Bank("Nasz bank");
+        jakisBank.createAccount(465,LocalDateTime.now(),50000,0.05, false);
+        Account account = jakisBank.Accounts.get(0);
+        Credit credit = new Credit(LocalDateTime.now(), account, 100000, 0.05, 2);
+        credit.Payment(5250, LocalDateTime.now());
+
+    }
 }

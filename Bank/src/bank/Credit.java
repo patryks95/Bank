@@ -32,12 +32,7 @@ public class Credit implements Product {
 			return interest.CalculateInterest(this);
 		}
 	}
-    
-	
-	
-	
-	
-	
+
     public List<Operation> getHistory() {
         return History;
     }

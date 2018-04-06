@@ -6,7 +6,7 @@ public class InterestType1 extends Interest {
 
 	@Override
 public 	double CalculateInterest(Product product) {
-		return product.GetBalance()*0.10;
+		return product.GetBalance()*0.10+product.GetBalance();
 	}
 
 }

@@ -15,7 +15,6 @@ public class Credit implements Product {
     private LocalDateTime CreateDate;
     private Account account;
     private double Balance;
-    private double Interest;
 
     private Interest interest;
     
@@ -53,22 +52,20 @@ public class Credit implements Product {
     private double creditAmount;
     private String description;
 
-    public Credit(LocalDateTime createDate, Account account, double balance, double interest, int time) {
+    public Credit(LocalDateTime createDate, Account account, double balance,  int time, Interest i) {
         this.CreateDate = createDate;
         this.account = account;
         this.Balance = balance;
-        this.Interest = interest;
         this.durationTime = time;
+        this.interest=i;
         this.account.SetBalance(this.account.GetBalance() + balance);
-        calculateCredit();
+        this.creditAmount=CalculateInterestRate();
         this.description = "Kredyt na kwote: " + balance;
         System.out.println("Musisz spłacic: " + creditAmount);
     }
 
 
-    private void calculateCredit() {
-            this.creditAmount = (Balance * Interest + Balance);
-    }
+
 
 
 
@@ -89,6 +86,7 @@ public class Credit implements Product {
     public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {
 
     }
+    
 
     @Override
     public void Transfer(Product another_product, double value, String desc, int OperatorID) throws NotEnoughMoney {
@@ -105,6 +103,11 @@ public class Credit implements Product {
         return Balance;
     }
 
+    public double GetAmount() {
+        return creditAmount;
+    }
+
+    
     @Override
     public void SetBalance(double value) {
 

@@ -1,5 +1,8 @@
-package bank;
+package tests.bank;
 
+import bank.Account;
+import bank.Credit;
+import bank.Operation_Types;
 import junit.framework.TestCase;
 
 import java.time.LocalDateTime;
@@ -16,22 +19,21 @@ public class CreditTest extends TestCase {
 	        this.test = new Credit(LocalDateTime.now(), accountTest, 100000, 0, new InterestType1());
 	    }
 
-	    //coœ nie tak
+	    //coï¿½ nie tak
 	    public void testPayment() throws Exception {
 	        this.test.Payment(10000.0, LocalDateTime.now(),"test",1);
-	        assertEquals(this.test.getHistory().get(0).getType().toString(), "Credit");
+	        assertEquals(this.test.getHistory().get(0).getType().toString(), "KREDYT");
 	    }
-	    //doda³em, sprawdzi³em, dzia³a
+	    //dodaï¿½em, sprawdziï¿½em, dziaï¿½a
 	    public void testInterest() {
 	    	
 	    	assertEquals(this.test.GetAmount(),(this.test.GetBalance()*0.1+this.test.GetBalance()));
 	    	
 	    	
 	    }
-//coœ nie tak
+//coï¿½ nie tak
 	    public void testPayoff() throws Exception {
-	        //this.test.Payoff(20000, LocalDateTime.now());
-	        assertEquals(this.accountTest.GetBalance(), 104000.0);
+	        assertEquals(this.accountTest.GetBalance(), 150000.0);
 	    }
 
 

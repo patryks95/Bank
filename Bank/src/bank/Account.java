@@ -16,21 +16,20 @@ public class Account implements Product {
     private ArrayList<Operation> History;   //Historia konta
     private Investment investment = null;   //Lokata
     private boolean CanDebit;   //Możliwość debetu
+    private Interest interest;
     
 
-    public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit, int OperatorID) {
+    public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit, int OperatorID,Interest i) {
         SetOwnerID(ownerID);
         SetCreateDate(createDate);
         SetBalance(accountState);
         CreateDate = createDate;
         setCanDebit(canDebit);
+        setInterest(i);
         History = new ArrayList<>();
 
         AddOperation(new Operation(ownerID, Operation_Types.UTWORZENIE, createDate, "Utorzenie konta", OperatorID, accountState));
     }
-
-    private Interest interest;
-    
 
 	public void setInterest(Interest interest) {
 		this.interest = interest;

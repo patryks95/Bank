@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import Command.Command;
 import bank.Exceptions.*;
 import interest.Interest;
 
@@ -17,7 +19,9 @@ public class Account implements Product {
     private Investment investment = null;   //Lokata
     private boolean CanDebit;   //Możliwość debetu
     private Interest interest;
-    
+    public void doOperation(Command operation) {
+    	operation.execute(this);
+    	}
 
     public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit, int OperatorID,Interest i) {
         SetOwnerID(ownerID);

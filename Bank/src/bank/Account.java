@@ -34,6 +34,12 @@ public class Account implements Product {
 	public void setInterest(Interest interest) {
 		this.interest = interest;
 	}
+	public void setIncome(double temp) {
+		this.Balance += temp;
+	}
+	public void setPayment(double temp) {
+		this.Balance-=temp;
+	}
 	public double CalculateInterestRate() 
 	{
 		if(interest==null) {

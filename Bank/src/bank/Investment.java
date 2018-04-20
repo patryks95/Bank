@@ -42,7 +42,7 @@ public class Investment implements Product {
 		}
 		else 
 		{
-			return interest.CalculateInterest(this);
+			return interest.CalculateInterest(ownerAccount);
 		}
 	}
     

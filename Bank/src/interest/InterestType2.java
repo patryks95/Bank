@@ -1,12 +1,13 @@
 package interest;
 
+import bank.Account;
 import bank.Product;
 
 /**
  * Created by Kuba on 06.04.2018.
  */
 public class InterestType2 extends Interest {
-    public 	double CalculateInterest(Product product) {
+    public 	double CalculateInterest(Account product) {
         double Balance = product.GetBalance();
 
         if (Balance <= 10000.0) {

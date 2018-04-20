@@ -3,6 +3,9 @@ package bank;
 import interest.InterestType2;
 
 import javax.xml.crypto.Data;
+
+import Command.*;
+
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -24,6 +27,20 @@ public class Bank {
         //History.add(new Operation("Account", createDate,"Zalozenie konta", id, balance));
         System.out.println("Stworzono konto");
     }
+
+    public void income(Account acc, double amount) {
+    	Command command = new Income(amount);
+    	acc.doOperation(command);
+    	}
+   public void transfer(Account from, Account to, double amount){
+    	Command command = new Transfer(to, amount);
+    	from.doOperation(command);
+    	}
+   public void payment(Account acc, double amount) {
+	   Command command = new Payment(amount);
+	   acc.doOperation(command);
+	   
+   }
 
     public static void main (String [] args) throws Exception {
         Bank jakisBank = new Bank("Nasz bank");

@@ -3,7 +3,7 @@ package bank;
 import bank.Exceptions.NotEnoughMoney;
 import interest.Interest;
 
-import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -11,16 +11,21 @@ import java.util.List;
 
 public class Investment implements Product {
     private int OwnerID;
-    private LocalDateTime CreateDate;
+    private LocalDate CreateDate;
     private double Balance;
     private Account ownerAccount;
     private double Interest;
+
+    public int getDurationTime() {
+        return durationTime;
+    }
+
     private int durationTime;
     private List<Operation> History = new ArrayList<>();
     private double income;
     private String description;
 
-    public Investment(LocalDateTime createDate, Account ownerAccount, double interest, double amount,int time) {
+    public Investment(LocalDate createDate, Account ownerAccount, double interest, double amount, int time) {
         this.CreateDate = createDate;
         this.ownerAccount = ownerAccount;
         this.Interest = interest;
@@ -68,7 +73,7 @@ public class Investment implements Product {
      * @param value
      */
     @Override
-    public void Payment(double value, LocalDateTime dateTime, String description, int operatorID) {
+    public void Payment(double value, LocalDate dateTime, String description, int operatorID) {
         //ownerAccount.SetBalance(ownerAccount.GetBalance() - value);
         calculateIncome(Interest, value, durationTime);
     }
@@ -114,12 +119,12 @@ public class Investment implements Product {
     }
 
     @Override
-    public LocalDateTime GetCreateDate() {
+    public LocalDate GetCreateDate() {
         return CreateDate;
     }
 
     @Override
-    public void SetCreateDate(LocalDateTime aDate) {
+    public void SetCreateDate(LocalDate aDate) {
         this.CreateDate = aDate;
     }
 

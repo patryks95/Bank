@@ -1,19 +1,20 @@
 package interest;
 
 import bank.Account;
+import bank.Investment;
 import bank.Product;
 
 public class InterestType3 extends Interest {
 
     @Override
-    public 	double CalculateInterest(Account product) {
+    public 	double CalculateInterest(Investment product) {
 
         double Balance = product.GetBalance();
         if (Balance < 1000.0) {
-            return Balance * 1.02;
+            return Balance * 0.02;
         } else if (Balance >= 1000 && Balance <= 50000) {
-            return Balance * 1.025;
+            return Balance * 0.025;
         } else {
-            return Balance * 1.03; }
+            return Balance * 0.03; }
         }
 }

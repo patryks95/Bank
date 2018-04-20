@@ -3,16 +3,14 @@ package bank;
 import bank.Exceptions.NotEnoughMoney;
 import interest.Interest;
 
-import java.math.BigDecimal;
-import java.security.acl.Owner;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Credit implements Product {
     private int OwnerID;
-    private LocalDateTime CreateDate;
+    private LocalDate CreateDate;
     private Account account;
     private double Balance;
 
@@ -47,7 +45,7 @@ public class Credit implements Product {
     private double creditAmount;
     private String description;
 
-    public Credit(LocalDateTime createDate, Account account, double balance,  int time, Interest i) {
+    public Credit(LocalDate createDate, Account account, double balance, int time, Interest i) {
         this.CreateDate = createDate;
         this.account = account;
         this.Balance = balance;
@@ -65,7 +63,7 @@ public class Credit implements Product {
 
 
     @Override
-    public void Payment(double value, LocalDateTime date, String Desc, int OperatorID) {
+    public void Payment(double value, LocalDate date, String Desc, int OperatorID) {
         account.SetBalance(account.GetBalance() - value);
         this.creditAmount -= value;
         if (this.creditAmount == 0.0) {
@@ -78,7 +76,7 @@ public class Credit implements Product {
     }
 
     @Override
-    public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {
+    public void Payoff(double value, LocalDate date, String Desc, int OperatorID) throws NotEnoughMoney {
 
     }
     
@@ -120,12 +118,12 @@ public class Credit implements Product {
 
 
     @Override
-    public LocalDateTime GetCreateDate() {
+    public LocalDate GetCreateDate() {
         return CreateDate;
     }
 
     @Override
-    public void SetCreateDate(LocalDateTime aDate) {
+    public void SetCreateDate(LocalDate aDate) {
         this.CreateDate = aDate;
     }
 

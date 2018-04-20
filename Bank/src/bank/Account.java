@@ -1,11 +1,8 @@
 package bank;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import Command.Command;
 import bank.Exceptions.*;
@@ -13,17 +10,22 @@ import interest.Interest;
 
 public class Account implements Product {
     private int OwnerID;    //ID Właściciela konta
-    private LocalDateTime CreateDate; //Data utworzenia
+    private LocalDate CreateDate; //Data utworzenia
     private double Balance;    //Stan konta
     private ArrayList<Operation> History;   //Historia konta
     private Investment investment = null;   //Lokata
     private boolean CanDebit;   //Możliwość debetu
+
+    public Interest getInterest() {
+        return interest;
+    }
+
     private Interest interest;
     public void doOperation(Command operation) {
     	operation.execute(this);
     	}
 
-    public Account(int ownerID, LocalDateTime createDate, double accountState, boolean canDebit, int OperatorID,Interest i) {
+    public Account(int ownerID, LocalDate createDate, double accountState, boolean canDebit, int OperatorID, Interest i) {
         SetOwnerID(ownerID);
         SetCreateDate(createDate);
         SetBalance(accountState);
@@ -65,12 +67,12 @@ public class Account implements Product {
     @Override
     public void Transfer(Product another_product, double value, String Desc, int OperatorID) throws NotEnoughMoney {
         if (value > 0) {
-            another_product.Payoff(value, LocalDateTime.now(), Desc, OperatorID);
-            this.Payment(value, LocalDateTime.now(), Desc, OperatorID);
+            another_product.Payoff(value, LocalDate.now(), Desc, OperatorID);
+            this.Payment(value, LocalDate.now(), Desc, OperatorID);
         } else {
             value = Math.abs(value);
-            this.Payoff(value, LocalDateTime.now(), Desc, OperatorID);
-            another_product.Payment(value, LocalDateTime.now(), Desc, OperatorID);
+            this.Payoff(value, LocalDate.now(), Desc, OperatorID);
+            another_product.Payment(value, LocalDate.now(), Desc, OperatorID);
         }
     }
 
@@ -93,7 +95,7 @@ public class Account implements Product {
 
     public void setInvestment(Investment investment) {
         this.investment = investment;
-        AddOperation(new Operation(OwnerID, Operation_Types.LOKATA, LocalDateTime.now(),"Zalozenie lokaty", OwnerID, investment.GetBalance()));
+        AddOperation(new Operation(OwnerID, Operation_Types.LOKATA, LocalDate.now(),"Zalozenie lokaty", OwnerID, investment.GetBalance()));
     }
 
 
@@ -128,9 +130,9 @@ public class Account implements Product {
     */
 
     @Override
-    public void Payment(double value, LocalDateTime date, String Desc, int OperatorID) {
+    public void Payment(double value, LocalDate date, String Desc, int OperatorID) {
         this.SetBalance(this.GetBalance() + value);
-        this.AddOperation(new Operation(OwnerID,Operation_Types.WPLATA, LocalDateTime.now(), Desc, OperatorID, value));
+        this.AddOperation(new Operation(OwnerID,Operation_Types.WPLATA, LocalDate.now(), Desc, OperatorID, value));
 
     }
 
@@ -145,13 +147,13 @@ public class Account implements Product {
 
 
     @Override
-    public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {
+    public void Payoff(double value, LocalDate date, String Desc, int OperatorID) throws NotEnoughMoney {
         if (this.GetBalance() < value && !CanDebit) {
             throw new NotEnoughMoney();
         }
 
         this.SetBalance(this.GetBalance() - value);
-        this.AddOperation(new Operation(OwnerID, Operation_Types.WYPLATA, LocalDateTime.now(), Desc, OperatorID, value) );
+        this.AddOperation(new Operation(OwnerID, Operation_Types.WYPLATA, LocalDate.now(), Desc, OperatorID, value) );
 
     }
 
@@ -168,12 +170,12 @@ public class Account implements Product {
     }
 
     @Override
-    public LocalDateTime GetCreateDate() {
+    public LocalDate GetCreateDate() {
         return CreateDate;
     }
 
     @Override
-    public void SetCreateDate(LocalDateTime aDate) {
+    public void SetCreateDate(LocalDate aDate) {
         this.CreateDate = aDate;
     }
 

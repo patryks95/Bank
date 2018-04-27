@@ -2,14 +2,15 @@ package Command;
 
 import bank.Account;
 import bank.Investment;
+import interest.Interest;
 
 import java.time.LocalDate;
 
 public class CreateInvestment implements Command {
-	int amount;
+	double amount;
 	int duration;
 
-	public CreateInvestment(double amount, int duration, Interest interest)
+	public CreateInvestment(double amount, int duration)
 	{
 		this.amount=amount;
 		this.duration=duration;
@@ -17,7 +18,7 @@ public class CreateInvestment implements Command {
 	@Override
 	public void execute(Account acc) {
 		// TODO Auto-generated method stub
-		acc.setInvestment(new Investment( LocalDate.now(), acc, interest,  amount,  duration));
+		acc.setInvestment(new Investment( LocalDate.now(), acc,  amount,  duration));
 	}
 
 }

@@ -1,6 +1,7 @@
 package bank;
 
 import bank.Exceptions.NotEnoughMoney;
+import interest.Interest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,32 +25,21 @@ public class Investment implements Product {
     private double income;
     private String description;
 
-    public Investment(LocalDate createDate, Account ownerAccount, double interest, double amount, int time) {
+    public Investment(LocalDate createDate, Account ownerAccount, double amount, int time) {
         this.CreateDate = createDate;
         this.ownerAccount = ownerAccount;
-        this.Interest = interest;
         this.OwnerID = ownerAccount.GetOwnerID();
         this.Balance = amount;
         this.durationTime = time;
         description = "Lokata na: " + durationTime + " dni na kwote: " + amount + " z oprocentowaniem: " + interest + ". Zalozona: " + createDate.toString();
     }
-    private Interest interest;
-    
+    private interest.Interest interest;
+
 
 	public void setInterest(Interest interest) {
 		this.interest = interest;
 	}
-	public double CalculateInterestRate() 
-	{
-		if(interest==null) {
-			return 0;
-		}
-		else 
-		{
-			return interest.CalculateInterest(ownerAccount);
-		}
-	}
-    
+
 
     /**
      * Zakończenie lokaty - rozne warianty

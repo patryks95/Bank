@@ -18,7 +18,7 @@ public class CloseInvestment implements Command {
 		if(dateClose.compareTo(LocalDate.now()) >=0 )
 		{
 
-			price+=acc.getInterest().CalculateInterest(acc.getInvestment());
+			price+=acc.getInterest().calculateInterest(acc.getInvestment());
 		}
 			acc.setIncome(price);
 

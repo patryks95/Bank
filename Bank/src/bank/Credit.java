@@ -1,6 +1,7 @@
 package bank;
 
 import bank.Exceptions.NotEnoughMoney;
+import interest.Interest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,14 +19,14 @@ public class Credit implements Product {
 	public void setInterest(Interest interest) {
 		this.interest = interest;
 	}
-	public double CalculateInterestRate() 
+	public double CalculateInterestRate()
 	{
 		if(interest==null) {
 			return 0;
 		}
-		else 
+		else
 		{
-			return interest.CalculateInterest(account);
+			return interest.calculateInterest(account);
 		}
 	}
 
@@ -43,12 +44,11 @@ public class Credit implements Product {
     private double creditAmount;
     private String description;
 
-    public Credit(LocalDate createDate, Account account, double balance, int time, Interest i) {
+    public Credit(LocalDate createDate, Account account, double balance, int time) {
         this.CreateDate = createDate;
         this.account = account;
         this.Balance = balance;
         this.durationTime = time;
-        this.interest=i;
         this.account.SetBalance(this.account.GetBalance() + balance);
         this.creditAmount=CalculateInterestRate();
         this.description = "Kredyt na kwote: " + balance;

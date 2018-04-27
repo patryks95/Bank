@@ -1,6 +1,7 @@
 package Command;
 
 import bank.Account;
+import interest.Interest;
 
 public class ChangeMechanismOfInterest implements Command  {
 

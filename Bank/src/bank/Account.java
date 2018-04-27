@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Command.Command;
 import bank.Exceptions.*;
+import interest.Interest;
 
 public class Account implements Product {
     private int OwnerID;    //ID Właściciela konta
@@ -13,7 +14,7 @@ public class Account implements Product {
     private ArrayList<Operation> History;   //Historia konta
     private Investment investment = null;   //Lokata
     private boolean CanDebit;   //Możliwość debetu
-
+    private Credit credit = null; //Kredyt
     public Interest getInterest() {
         return interest;
     }
@@ -51,7 +52,7 @@ public class Account implements Product {
 		}
 		else 
 		{
-			return interest.CalculateInterest(this);
+			return interest.calculateInterest(this);
 		}
 	}
     
@@ -96,6 +97,14 @@ public class Account implements Product {
         AddOperation(new Operation(OwnerID, Operation_Types.LOKATA, LocalDate.now(),"Zalozenie lokaty", OwnerID, investment.GetBalance()));
     }
 
+    public Credit getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Credit credit) {
+        this.credit = credit;
+        AddOperation(new Operation(OwnerID,Operation_Types.KREDYT,LocalDate.now(), "Wziecie kredytu", OwnerID,credit.GetBalance()));
+    }
 
     /*
    Historia

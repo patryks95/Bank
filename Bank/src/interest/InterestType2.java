@@ -5,7 +5,7 @@ import bank.Product;
 /**
  * Created by Kuba on 06.04.2018.
  */
-public class InterestType2 implements CalculateInterest {
+public class InterestType2 implements Interest {
 
     @Override
     public 	double calculateInterest(Product product) {

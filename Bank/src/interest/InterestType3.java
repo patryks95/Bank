@@ -2,7 +2,7 @@ package interest;
 
 import bank.Product;
 
-public class InterestType3 implements CalculateInterest {
+public class InterestType3 implements Interest {
 
     @Override
     public 	double calculateInterest(Product product) {

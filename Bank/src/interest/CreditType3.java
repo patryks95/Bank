@@ -2,7 +2,7 @@ package interest;
 
 import bank.Product;
 
-public class CreditType3 implements CalculateInterest {
+public class CreditType3 implements Interest {
     @Override
     public double calculateInterest(Product product) {
         double balance = product.GetBalance();

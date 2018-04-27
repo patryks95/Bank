@@ -1,7 +1,6 @@
 package bank;
 
 import bank.Exceptions.NotEnoughMoney;
-import interest.Interest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

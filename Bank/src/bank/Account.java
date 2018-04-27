@@ -1,12 +1,10 @@
 package bank;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import Command.Command;
 import bank.Exceptions.*;
-import interest.Interest;
 
 public class Account implements Product {
     private int OwnerID;    //ID Właściciela konta

@@ -1,11 +1,10 @@
-package bank.credit;
+package interest;
 
-import bank.Account;
 import bank.Product;
 
-public class CreditType3 extends Credit {
+public class CreditType3 implements CalculateInterest {
     @Override
-    public double calculateCreditInterest(Account product) {
+    public double calculateInterest(Product product) {
         double balance = product.GetBalance();
         if(balance <= 100000.0) {
             return product.GetBalance() * 0.1 + product.GetBalance();

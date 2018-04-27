@@ -1,13 +1,11 @@
 package interest;
 
-import bank.Account;
-import bank.Investment;
 import bank.Product;
 
-public class InterestType1 extends Interest {
+public class InterestType1 implements CalculateInterest {
 
 	@Override
-public 	double CalculateInterest(Investment product) {
+public 	double calculateInterest(Product product) {
 		return product.GetBalance()*0.10;
 	}
 

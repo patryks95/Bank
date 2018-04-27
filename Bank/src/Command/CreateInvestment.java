@@ -2,7 +2,6 @@ package Command;
 
 import bank.Account;
 import bank.Investment;
-import interest.Interest;
 
 import java.time.LocalDate;
 

@@ -29,6 +29,12 @@ public class Credit implements Product {
 			return interest.calculateInterest(account);
 		}
 	}
+    public void setIncome(double temp) {
+        this.Balance += temp;
+    }
+    public void setPayment(double temp) {
+        this.Balance-=temp;
+    }
 
     public List<Operation> getHistory() {
         return History;
@@ -60,29 +66,10 @@ public class Credit implements Product {
 
 
 
-    @Override
-    public void Payment(double value, LocalDate date, String Desc, int OperatorID) {
-        account.SetBalance(account.GetBalance() - value);
-        this.creditAmount -= value;
-        if (this.creditAmount == 0.0) {
-            System.out.println("Kredyt został spłacony");
-        } else {
-            System.out.println("Musisz spłacic: " + creditAmount);
-        }
 
-        AddOperation(new Operation(OwnerID, Operation_Types.KREDYT, date, Desc, OwnerID, value));
-    }
-
-    @Override
-    public void Payoff(double value, LocalDate date, String Desc, int OperatorID) throws NotEnoughMoney {
-
-    }
     
 
-    @Override
-    public void Transfer(Product another_product, double value, String desc, int OperatorID) throws NotEnoughMoney {
 
-    }
 
     @Override
     public void AddOperation(Operation operation) {

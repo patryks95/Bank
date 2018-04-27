@@ -39,10 +39,12 @@ public class Account implements Product {
 	public void setInterest(Interest interest) {
 		this.interest = interest;
 	}
+	@Override
 	public void setIncome(double temp) {
 		this.Balance += temp;
 	}
-	public void setPayment(double temp) {
+    @Override
+    public void setPayment(double temp) {
 		this.Balance-=temp;
 	}
 	public double CalculateInterestRate() 
@@ -63,17 +65,7 @@ public class Account implements Product {
     Jeśli value jest dodatnie wtedy jest to przelew na bierzące konto z another_product
     Jeśli ujemne - wtedy jest to przelew z bierzącego na another_product
      */
-    @Override
-    public void Transfer(Product another_product, double value, String Desc, int OperatorID) throws NotEnoughMoney {
-        if (value > 0) {
-            another_product.Payoff(value, LocalDate.now(), Desc, OperatorID);
-            this.Payment(value, LocalDate.now(), Desc, OperatorID);
-        } else {
-            value = Math.abs(value);
-            this.Payoff(value, LocalDate.now(), Desc, OperatorID);
-            another_product.Payment(value, LocalDate.now(), Desc, OperatorID);
-        }
-    }
+
 
     /*
     Lokata
@@ -136,33 +128,6 @@ public class Account implements Product {
    Po udanej operacji dodawany jest wpis do historii
     */
 
-    @Override
-    public void Payment(double value, LocalDate date, String Desc, int OperatorID) {
-        this.SetBalance(this.GetBalance() + value);
-        this.AddOperation(new Operation(OwnerID,Operation_Types.WPLATA, LocalDate.now(), Desc, OperatorID, value));
-
-    }
-
-
-    /*
-   Wypłata
-
-   Wypłata z konta
-   W przypadku braku wystarczających środków rzucany jest wyjątek NotEnoughMoney
-   Po udanej operacji dodawany jest wpis do historii
-    */
-
-
-    @Override
-    public void Payoff(double value, LocalDate date, String Desc, int OperatorID) throws NotEnoughMoney {
-        if (this.GetBalance() < value && !CanDebit) {
-            throw new NotEnoughMoney();
-        }
-
-        this.SetBalance(this.GetBalance() - value);
-        this.AddOperation(new Operation(OwnerID, Operation_Types.WYPLATA, LocalDate.now(), Desc, OperatorID, value) );
-
-    }
 
 
 

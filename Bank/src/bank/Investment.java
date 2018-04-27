@@ -40,6 +40,12 @@ public class Investment implements Product {
 		this.interest = interest;
 	}
 
+    public void setIncome(double temp) {
+        this.Balance += temp;
+    }
+    public void setPayment(double temp) {
+        this.Balance-=temp;
+    }
 
     /**
      * Zakończenie lokaty - rozne warianty
@@ -57,29 +63,9 @@ public class Investment implements Product {
         this.income = (amount * interest * time) / 12;
     }
 
-    /**
-     * Wpłata - rozpoczecie lokaty
-     * @param value
-     */
-    @Override
-    public void Payment(double value, LocalDate dateTime, String description, int operatorID) {
-        //ownerAccount.SetBalance(ownerAccount.GetBalance() - value);
-        calculateIncome(Interest, value, durationTime);
-    }
 
-    @Override
-    public void Payoff(double value, LocalDateTime date, String Desc, int OperatorID) throws NotEnoughMoney {
-        if(ChronoUnit.MONTHS.between(date,CreateDate) == durationTime) {
-            ownerAccount.SetBalance(ownerAccount.GetBalance() + Balance + income);
-        } else {
-            ownerAccount.SetBalance(ownerAccount.GetBalance() + Balance);
 
-        }
-    }
 
-    @Override
-    public void Transfer(Product another_product, double value, String desc, int OperatorID) throws NotEnoughMoney {
-    }
 
     @Override
     public void AddOperation(Operation operation) {

@@ -49,13 +49,9 @@ public class Bank {
         jakisBank.createAccount(5000, LocalDate.now(), 4500, 0.1 , false);
         System.out.println("1.Przed lokata: " + jakisBank.Accounts.get(0).GetBalance());
         System.out.println("2." + jakisBank.Accounts.get(1).GetBalance());
-        jakisBank.Accounts.get(0).setInvestment(new Investment(LocalDate.now(),jakisBank.Accounts.get(0),0.1,8000,12));
-        jakisBank.Accounts.get(0).Transfer(jakisBank.Accounts.get(0).getInvestment(),-8000.0,"Zalozenie lokaty",jakisBank.Accounts.get(0).GetOwnerID());
         System.out.println("3.Po zalozeniu lokaty: " + jakisBank.Accounts.get(0).GetBalance());
         jakisBank.Accounts.get(0).getInvestment().endInvestmentNormal();
         System.out.println("4.Po lokacie normalnie: " + jakisBank.Accounts.get(0).GetBalance());
-        jakisBank.Accounts.get(0).setInvestment(new Investment(LocalDate.now(),jakisBank.Accounts.get(0),0.1,9000,6));
-        jakisBank.Accounts.get(0).Transfer(jakisBank.Accounts.get(0).getInvestment(),-9000.0,"Zalozenie lokaty",jakisBank.Accounts.get(0).GetOwnerID());
         System.out.println("5.Po zalozeniu lokaty: " + jakisBank.Accounts.get(0).GetBalance());
         jakisBank.Accounts.get(0).getInvestment().endInvestmentEarly();
         System.out.println("6.Po lokacie wczesnie: " + jakisBank.Accounts.get(0).GetBalance());

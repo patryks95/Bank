@@ -1,6 +1,5 @@
 package Decorator;
 
-import bank.Account;
 import bank.Operation;
 import bank.Product;
 

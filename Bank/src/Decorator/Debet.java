@@ -8,73 +8,92 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Debet extends ProductDecorator {
+public class Debet implements Product {
 
     private List<Operation> history;
     private double debetAmount;
+    private Product account;
 
-    public Debet(Product product) {
-        super(product);
+    public Debet(Product product, double debetAmount) {
+        this.account = product;
         this.history = new ArrayList<>();
-        this.debetAmount = 0;
+        this.debetAmount = debetAmount;
     }
 
 
     @Override
     public void setIncome(double amount) {
-        super.setIncome(amount);
+        if(debetAmount > 0) {
+            if(debetAmount > amount) {
+                debetAmount -= amount;
+            } else {
+                amount -= debetAmount;
+                account.setIncome(amount);
+            }
+        } else {
+            account.setIncome(amount);
+        }
+
     }
 
     @Override
     public void setPayment(double amount) {
-        if(!hasEnoughMoney(amount)) {
-            account.setPayment(amount);
-            debetAmount += amount;
+        if(hasEnoughMoney(amount)) {
+
+            if(account.GetBalance() >= amount) {
+                account.setPayment(amount);
+            } else {
+                if(account.GetBalance() > 0) {
+                    account.setPayment(account.GetBalance());
+                    amount -= account.GetBalance();
+                }
+                debetAmount += amount;
+            }
         } else {
-            account.setPayment(amount);
+            System.out.println("Not enough money");
         }
     }
 
     @Override
     public void AddOperation(Operation operation) {
-        super.AddOperation(operation);
+        account.AddOperation(operation);
     }
 
     @Override
     public double GetBalance() {
-        return super.GetBalance();
+        return account.GetBalance();
     }
 
     @Override
     public void SetBalance(double value) {
-        super.SetBalance(value);
+        account.SetBalance(value);
     }
 
     @Override
     public int GetOwnerID() {
-        return super.GetOwnerID();
+        return account.GetOwnerID();
     }
 
     @Override
     public void SetOwnerID(int OwnerID) {
-        super.SetOwnerID(OwnerID);
+        account.SetOwnerID(OwnerID);
     }
 
     @Override
     public LocalDate GetCreateDate() {
-        return super.GetCreateDate();
+        return account.GetCreateDate();
     }
 
     @Override
     public void SetCreateDate(LocalDate aDate) {
-        super.SetCreateDate(aDate);
+        account.SetCreateDate(aDate);
     }
 
     public boolean hasEnoughMoney(double amount) {
-        if(this.account.GetBalance() < amount) {
-            return false;
-        } else {
+        if(this.account.GetBalance() - debetAmount >= amount) {
             return true;
+        } else {
+            return false;
         }
     }
 }

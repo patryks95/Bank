@@ -1,5 +1,6 @@
 package bank;
 
+import Decorator.Debet;
 import interest.InterestType2;
 
 import javax.xml.crypto.Data;
@@ -41,6 +42,13 @@ public class Bank {
 	   Command command = new Payment(amount);
 	   acc.doOperation(command);
 	   
+   }
+
+   public void addDebetToAccount(int accountId, double debet) {
+        Product account = Accounts.get(accountId);
+        account = new Debet(account, debet);
+        account.AddOperation(new Operation(account.GetOwnerID(),Operation_Types.UTWORZENIE,LocalDate.now(),"Utworzenie konta debetowego",account.GetOwnerID(),debet));
+        //Accounts.set(accountId,account);
    }
 
     public static void main (String [] args) throws Exception {

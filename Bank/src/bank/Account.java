@@ -57,15 +57,6 @@ public class Account implements Product {
 			return interest.calculateInterest(this);
 		}
 	}
-    
-    
-    /*
-    Przelew
-
-    Jeśli value jest dodatnie wtedy jest to przelew na bierzące konto z another_product
-    Jeśli ujemne - wtedy jest to przelew z bierzącego na another_product
-     */
-
 
     /*
     Lokata
@@ -120,17 +111,6 @@ public class Account implements Product {
         this.Balance = value;
     }
 
-
-    /*
-   Wplata
-
-   Wpłata na konto
-   Po udanej operacji dodawany jest wpis do historii
-    */
-
-
-
-
     @Override
     public int GetOwnerID() {
         return OwnerID;
@@ -159,5 +139,4 @@ public class Account implements Product {
         CanDebit = canDebit;
     }
 
-	
 }

@@ -1,5 +1,6 @@
 package Decorator;
 
+import bank.Account;
 import bank.Operation;
 import bank.Operation_Types;
 import bank.Product;
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Debet implements Product {
+public class Debet extends Account {
 
     private List<Operation> history;
     private double debetAmount;
@@ -20,6 +21,13 @@ public class Debet implements Product {
         this.debetAmount = debetAmount;
     }
 
+    public double getDebetAmount() {
+        return debetAmount;
+    }
+
+    public void setDebetAmount(double debetAmount) {
+        this.debetAmount = debetAmount;
+    }
 
     @Override
     public void setIncome(double amount) {
@@ -50,6 +58,8 @@ public class Debet implements Product {
                 debetAmount += amount;
             }
         } else {
+            debetAmount+= amount - account.GetBalance();
+            account.SetBalance(0.0);
             System.out.println("Not enough money");
         }
     }

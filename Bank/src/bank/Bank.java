@@ -45,10 +45,11 @@ public class Bank {
    }
 
    public void addDebetToAccount(int accountId, double debet) {
-        Product account = Accounts.get(accountId);
+        Account account = Accounts.get(accountId);
         account = new Debet(account, debet);
+
         account.AddOperation(new Operation(account.GetOwnerID(),Operation_Types.UTWORZENIE,LocalDate.now(),"Utworzenie konta debetowego",account.GetOwnerID(),debet));
-        //Accounts.set(accountId,account);
+        Accounts.set(accountId,account);
    }
 
     public static void main (String [] args) throws Exception {

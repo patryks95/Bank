@@ -24,6 +24,9 @@ public class Account implements Product {
     	operation.execute(this);
     	}
 
+    public Account() {
+    }
+
     public Account(int ownerID, LocalDate createDate, double accountState, boolean canDebit, int OperatorID, Interest i) {
         SetOwnerID(ownerID);
         SetCreateDate(createDate);

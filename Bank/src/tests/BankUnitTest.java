@@ -1,4 +1,5 @@
 package tests;
+import Decorator.Debet;
 import bank.*;
 import junit.framework.TestCase;
 
@@ -52,8 +53,14 @@ public class BankUnitTest extends TestCase {
     public void testDebet() {
         this.test.createAccount(0, LocalDate.now(), 5000, 0.05, true);
         this.test.addDebetToAccount(0,800);
-        this.test.income(this.test.Accounts.get(0),200);
-        this.test.Accounts.get(0).GetBalance();
-        assertEquals(this.test.Accounts.get(0).GetBalance(), 5000);
+        Debet account = (Debet) this.test.Accounts.get(0);
+        this.test.income(account,200);
+        //this.test.income(this.test.Accounts.get(0),200);
+        assertEquals(account.getDebetAmount(),600.0);
+        this.test.payment(account, 5200.0);
+        assertEquals(account.getDebetAmount(),800.0);
+        assertEquals(this.test.Accounts.get(0).GetBalance(), 0.0);
+        this.test.income(account, 5000.0);
+        assertEquals(account.GetBalance(), 4200.0);
     }
 }

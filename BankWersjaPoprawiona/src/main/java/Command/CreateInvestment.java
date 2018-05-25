@@ -21,6 +21,7 @@ public class CreateInvestment implements Command {
 	public void execute(Account acc) {
 		// TODO Auto-generated method stub
 		acc.setInvestment(new Investment( interest, acc.getAccountID(),  amount,  duration));
+		acc.setBalance(acc.GetBalance() - amount);
 	}
 
 }

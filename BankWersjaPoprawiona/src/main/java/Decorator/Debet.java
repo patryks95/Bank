@@ -1,8 +1,11 @@
 package Decorator;
 
+import Interest.Interest;
 import Products.Account;
+import Products.Operation;
 import Products.Product;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Debet extends Account {
@@ -23,10 +26,11 @@ public class Debet extends Account {
     @Override
     public void setIncome(double amount) {
         if(debetAmount > 0) {
-            if(debetAmount > amount) {
+            if(debetAmount >= amount) {
                 debetAmount -= amount;
             } else {
                 amount -= debetAmount;
+                debetAmount = 0.0;
                 account.setIncome(amount);
             }
         } else {
@@ -62,4 +66,58 @@ public class Debet extends Account {
         }
     }
 
+    @Override
+    public LocalDate getCreateDate() {
+        return super.getCreateDate();
+    }
+
+    @Override
+    public void setCreateDate(LocalDate createDate) {
+        super.setCreateDate(createDate);
+    }
+
+    @Override
+    public Interest getInterest() {
+        return account.getInterest();
+    }
+
+    @Override
+    public void setInterest(Interest interest) {
+        account.setInterest(interest);
+    }
+
+    @Override
+    public ArrayList<Operation> getHistory() {
+        return account.getHistory();
+    }
+
+    @Override
+    public void setHistory(Operation operation) {
+        account.setHistory(operation);
+    }
+
+    @Override
+    public double getBalance() {
+        return account.getBalance();
+    }
+
+    @Override
+    public void setBalance(double balance) {
+        account.setBalance(balance);
+    }
+
+    @Override
+    public int getIdMemberShip() {
+        return account.getIdMemberShip();
+    }
+
+    @Override
+    public void setIdMemberShip(int idMemberShip) {
+        account.setIdMemberShip(idMemberShip);
+    }
+
+    @Override
+    public double CalculateInterestRate() {
+        return account.CalculateInterestRate();
+    }
 }

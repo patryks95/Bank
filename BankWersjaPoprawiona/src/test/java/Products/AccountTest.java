@@ -34,6 +34,19 @@ public class AccountTest extends TestCase {
 
     }
     public void testDebet() {
+        this.test.addDebetToAccount(0,800.0);
+        Debet account = (Debet) this.test.Accounts.get(0);
+        this.test.income(account,200.0);
+        assertEquals(account.getDebetAmount(),600.0);
+        this.test.payment(account,5200.0);
+        assertEquals(account.getDebetAmount(),5800.0);
+        assertEquals(account.getBalance(), 0.0);
+        this.test.income(account, 5900.0);
+        assertEquals(account.getDebetAmount(), 0.0);
+        assertEquals(account.getBalance(), 100.0);
+        this.test.income(account, 1200.0);
+        assertEquals(account.getBalance(), 1300.0);
+
 
     }
 

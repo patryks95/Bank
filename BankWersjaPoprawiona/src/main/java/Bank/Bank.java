@@ -51,6 +51,17 @@ public class Bank  implements  IBankColleague{
         acc.doOperation(command);
 
     }
+
+    public void createInvestment(Account acc, double amount, int duration, Interest interest) {
+        Command command = new CreateInvestment(amount,duration,interest);
+        acc.doOperation(command);
+    }
+
+    public void closeInvestment(Account acc) {
+        Command command = new CloseInvestment();
+        acc.doOperation(command);
+    }
+
     public void makeRaport() {
         ListOfAccountET visitor= new ListOfAccountET(5000);
         Command command = new MakeRaport(visitor);

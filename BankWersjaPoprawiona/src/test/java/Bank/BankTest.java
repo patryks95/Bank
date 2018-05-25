@@ -11,6 +11,12 @@ public class BankTest extends TestCase {
         test=new Bank("nazwa", new BankMediator());
     }
 
+    public void testBankName() {
+        String name = test.getName();
+        assertEquals(name, "nazwa");
+    }
+
+
     public void tearDown() throws Exception {
 
         test=null;

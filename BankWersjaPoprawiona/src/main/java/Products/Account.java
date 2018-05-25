@@ -32,7 +32,9 @@ public class Account extends Product implements Element {
 
     public void setInvestment(Investment investment) {
         this.investment = investment;
-        investment.setHistory(new Operation(AccountID, Operation_Types.LOKATA, LocalDate.now(),"Zalozenie lokaty", investment.GetBalance()));
+        if( investment != null) {
+            investment.setHistory(new Operation(AccountID, Operation_Types.LOKATA, LocalDate.now(), "Zalozenie lokaty", investment.GetBalance()));
+        }
     }
     public Credit getCredit() {
         return credit;

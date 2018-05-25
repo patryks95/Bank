@@ -3,6 +3,7 @@ package Products;
 import Bank.Bank;
 import Interest.InterestType1;
 import Interest.InterestType2;
+import Mediator.BankMediator;
 import junit.framework.TestCase;
 
 public class InvestmentTest extends TestCase {
@@ -11,7 +12,7 @@ public class InvestmentTest extends TestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        this.test = new Bank("nazwa");
+        this.test = new Bank("nazwa", new BankMediator());
         this.test.createAccount(new InterestType1(),0,2);
     }
 
@@ -21,6 +22,8 @@ public class InvestmentTest extends TestCase {
         assertEquals(account.getBalance(),700.0);
         this.test.createInvestment(account,300.0,6,new InterestType2());
         assertEquals(account.getBalance(),400.0);
+        this.test.closeInvestment(account);
+        assertEquals(account.getBalance(),700.0);
     }
 
     public void tearDown() throws Exception {

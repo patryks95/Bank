@@ -13,6 +13,12 @@ public class BankMediator implements IBankMediator {
     @Override
     public void sendMessage(Operation operation) {
 
+        for ( Bank bank: allBanks) {
+            if((((bank.getBankId()-1)*100)>operation.getIncomeId())&&(((bank.getBankId())*100)<=operation.getIncomeId()))
+            {
+                bank.Send(operation);
+            }
+        }
 
     }
 

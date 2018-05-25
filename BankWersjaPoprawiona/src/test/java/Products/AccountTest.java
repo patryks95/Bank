@@ -3,6 +3,7 @@ package Products;
 import Bank.Bank;
 import Decorator.Debet;
 import Interest.InterestType1;
+import Mediator.BankMediator;
 import junit.framework.TestCase;
 
 import java.time.LocalDate;
@@ -12,7 +13,7 @@ public class AccountTest extends TestCase {
     Bank test = null;
     public void setUp() throws Exception {
         super.setUp();
-        this.test = new Bank("testowy bank");
+        this.test = new Bank("testowy bank",new BankMediator());
         this.test.createAccount(new InterestType1(),0,2);
 
     }

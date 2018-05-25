@@ -1,20 +1,28 @@
 package Command;
 
-
+import  Bank.*;
 import Products.Account;
+import Products.Operation;
+import Products.Operation_Types;
+
+import java.time.LocalDate;
 
 public class Transfer implements Command {
-	private Account to;
-	private double amount;
+	double amount;
+Operation operation;
+Bank bank;
+	public Transfer(int accountTo, double amount, String description, Bank bank) {
+		operation=new Operation(0, Operation_Types.PRZELEW,LocalDate.now(),description,amount, accountTo);
+				this.amount=amount;
+				this.bank=bank;
 
-	public Transfer(Account to, double amount) {
-		this.to = to;
-		this.amount = amount;
 	}
 
 	@Override
-	public void execute(Account operation) {
-		operation.setPayment(this.amount);
-		to.setIncome(this.amount);
+	public void execute(Account acc) {
+
+		operation.setOwnerID(acc.getAccountID());
+		acc.setHistory(operation);
+		bank.Send(operation);
 	}
 }

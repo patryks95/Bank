@@ -3,6 +3,9 @@ package Bank;
 import Command.*;
 import Decorator.Debet;
 import Interest.*;
+import Mediator.BankMediator;
+import Mediator.IBankColleague;
+import Mediator.IBankMediator;
 import Products.Account;
 import Products.Operation;
 import Visitor.ListOfAccountET;
@@ -12,10 +15,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bank {
+public class Bank  implements  IBankColleague{
 
-    public  Bank(String n){Name=n;}
+    IBankMediator mediator;
+    public  Bank(String n, BankMediator mediator){Name=n;
+    this.mediator=mediator;}
+
     private String Name;
+    private int bankId;
+
+    public int getBankId() {
+        return bankId;
+    }
+
+    public void setBankId(int bankId) {
+        this.bankId = bankId;
+    }
+
     public List<Account> Accounts = new ArrayList<Account>();
     private List<Operation> History =  new ArrayList<Operation>();
     public void createAccount(Interest interest, int AccontID, int IdMemberShip) {
@@ -26,8 +42,8 @@ public class Bank {
         Command command = new Income(amount);
         acc.doOperation(command);
     }
-    public void transfer(Account from, Account to, double amount){
-        Command command = new Transfer(to, amount);
+    public void transfer(Account from, int  to, double amount, String description){
+        Command command = new Transfer(to, amount, description, this);
         from.doOperation(command);
     }
     public void payment(Account acc, double amount) {
@@ -86,4 +102,32 @@ public class Bank {
     }
 
 
+    @Override
+    public void Send(Operation operation) {
+        mediator.sendMessage(operation);
+    }
+
+    @Override
+    public void Receive(Operation operation) {
+
+        boolean find=false;
+        for(Account acc : Accounts){
+            if(acc.getAccountID()==operation.getIncomeId()){
+
+                this.income(acc,operation.getAmount());
+                find=true;
+            }
+
+
+        }
+        if(find==false){
+            int idOwner=operation.getOwnerID();
+            int idIncome=operation.getIncomeId();
+            operation.setIncomeId(idOwner);
+            operation.setOwnerID(idIncome);
+            setHistory(operation);
+            mediator.sendMessage(operation);
+        }
+
+    }
 }

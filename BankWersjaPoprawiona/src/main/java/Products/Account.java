@@ -1,5 +1,6 @@
 package Products;
 
+import Exceptions.NotEnoughMoney;
 import Interest.*;
 import Command.Command;
 import  Bank.*;
@@ -50,8 +51,8 @@ public class Account extends Product implements Element {
         this.Balance += temp;
     }
     @Override
-    public void setPayment(double temp) {
-        this.Balance-=temp;
+    public void setPayment(double temp) throws NotEnoughMoney {
+        super.setPayment(temp);
     }
 
     public int getAccountID() {

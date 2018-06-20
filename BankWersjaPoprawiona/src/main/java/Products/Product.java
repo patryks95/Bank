@@ -2,6 +2,7 @@ package Products;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import Exceptions.NotEnoughMoney;
 import  Interest.*;
 
 
@@ -85,7 +86,12 @@ Product(Interest interest, int ID){
     public void setIncome(double temp) {
         this.Balance += temp;
     }
-    public void setPayment(double temp) {
-        this.Balance-=temp;
+    public void setPayment(double temp) throws NotEnoughMoney {
+        if (temp > this.Balance) {
+            this.Balance-=temp;
+        } else {
+            throw new NotEnoughMoney();
+        }
+
     }
 }

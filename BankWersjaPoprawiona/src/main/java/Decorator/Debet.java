@@ -1,5 +1,6 @@
 package Decorator;
 
+import Exceptions.NotEnoughMoney;
 import Interest.Interest;
 import Products.Account;
 import Products.Operation;
@@ -42,16 +43,22 @@ public class Debet extends Account {
     @Override
     public void setPayment(double amount) {
         if(hasEnoughMoney(amount)) {
-
-            if(account.GetBalance() >= amount) {
+            try {
                 account.setPayment(amount);
-            } else {
+            } catch (NotEnoughMoney e) {
+
                 if(account.GetBalance() > 0) {
-                    account.setPayment(account.GetBalance());
-                    amount -= account.GetBalance();
+                    try {
+                        account.setPayment(account.GetBalance());
+                        amount -= account.GetBalance();
+                    } catch (NotEnoughMoney e2) {
+                    }
+
                 }
+
                 debetAmount += amount;
             }
+
         } else {
             debetAmount+= amount - account.GetBalance();
             account.SetBalance(0.0);

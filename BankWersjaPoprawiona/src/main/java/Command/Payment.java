@@ -1,6 +1,7 @@
 package Command;
 
 
+import Exceptions.NotEnoughMoney;
 import Products.Account;
 
 public class Payment implements Command {
@@ -10,8 +11,11 @@ public class Payment implements Command {
 	@Override
 	public void execute(Account operation) {
 		// TODO Auto-generated method stub
-		operation.setPayment(payment);
-		
+		try {
+			operation.setPayment(payment);
+		} catch (NotEnoughMoney e) {
+			System.out.println("Not enough money");
+		}
 	}
 
 }

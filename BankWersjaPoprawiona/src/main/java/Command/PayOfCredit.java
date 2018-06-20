@@ -1,6 +1,7 @@
 package Command;
 
 
+import Exceptions.NotEnoughMoney;
 import Products.Account;
 
 public class PayOfCredit implements Command {
@@ -10,9 +11,14 @@ public class PayOfCredit implements Command {
 		this.amount=amount;
 	}
 	@Override
-	public void execute(Account acc) {
-		acc.setPayment(amount);
-		acc.getCredit().setIncome(amount);
+	public void execute(Account acc)  {
+		try {
+			acc.setPayment(amount);
+			acc.getCredit().setIncome(amount);
+		} catch (NotEnoughMoney e) {
+			System.out.println("Not enough money");
+		}
+
 
 
 	}

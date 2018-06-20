@@ -62,6 +62,16 @@ public class Bank  implements  IBankColleague{
         acc.doOperation(command);
     }
 
+    public void getCredit(Account account, double amount, int duration, Interest interest) {
+        Command command = new GetCredit(interest,amount,duration);
+        account.doOperation(command);
+    }
+
+    public void payOfCredit(Account account, double amount) {
+        Command command = new PayOfCredit(amount);
+        account.doOperation(command);
+    }
+
     public void makeRaport() {
         ListOfAccountET visitor= new ListOfAccountET(5000);
         Command command = new MakeRaport(visitor);
@@ -108,7 +118,6 @@ public class Bank  implements  IBankColleague{
     }
 
     public static void main (String [] args) throws Exception {
-
 
     }
 

@@ -7,6 +7,7 @@ public class Investment extends Product {
         super(interest, ID);
         description = "Lokata na: " + durationTime + " dni na kwote: " + amount + " z oprocentowaniem: " + interest + ". Zalozona: " + CreateDate.toString();
         this.amount=amount;
+        this.Balance = amount;
         this.durationTime=durationTime;
     }
     private int durationTime;

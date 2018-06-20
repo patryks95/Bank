@@ -9,7 +9,7 @@ public class CloseInvestment implements Command {
 
 	@Override
 	public void execute(Account acc) {
-		// TODO Auto-generated method stub
+
 		if(acc.getInvestment()!=null){
 		int duration=acc.getInvestment().getDurationTime();
 		LocalDate dateClose=acc.getInvestment().getCreateDate().plusMonths(duration);
@@ -20,7 +20,6 @@ public class CloseInvestment implements Command {
 			price+=acc.getInterest().calculateInterest(acc.getInvestment());
 		}
 			acc.setIncome(price);
-
 			acc.setInvestment(null);
 		acc.setInterest(null);
 

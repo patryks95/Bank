@@ -3,6 +3,7 @@ package Products;
 import Bank.Bank;
 import Decorator.Debet;
 import Interest.InterestType1;
+import Interest.InterestType2;
 import Mediator.BankMediator;
 import junit.framework.TestCase;
 
@@ -15,20 +16,21 @@ public class AccountTest extends TestCase {
         super.setUp();
         this.test = new Bank("testowy bank",new BankMediator());
         this.test.createAccount(new InterestType1(),0,2);
+        this.test.createAccount(new InterestType2(),1,2);
 
     }
 
     public void testAccountBankIncome() {
-        Product account = this.test.Accounts.get(0);
-        account.setIncome(125);
+        Account account = this.test.Accounts.get(0);
+        this.test.income(account,125);
         assertEquals(account.GetBalance(), 125.0);
 
     }
 
     public void testAccountBankPayment() {
-        Product account = this.test.Accounts.get(0);
-        account.setIncome(125);
-        account.setPayment(100);
+        Account account = this.test.Accounts.get(0);
+        this.test.income(account,200);
+        this.test.payment(account,175);
         assertEquals(account.GetBalance(), 25.0);
 
 
@@ -46,10 +48,13 @@ public class AccountTest extends TestCase {
         assertEquals(account.getBalance(), 100.0);
         this.test.income(account, 1200.0);
         assertEquals(account.getBalance(), 1300.0);
-
-
     }
 
+    public void testTransfer(){
+        Account account1 = this.test.Accounts.get(0);
+        this.test.income(account1,200);
+        Account account2 = this.test.Accounts.get(1);
+    }
 
     public void tearDown() throws Exception {
     }

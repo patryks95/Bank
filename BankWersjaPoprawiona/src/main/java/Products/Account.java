@@ -13,10 +13,6 @@ public class Account extends Product implements Element {
     private Credit credit = null; //Kredyt
     private int AccountID;
 
-
-
-
-
     public Account(Interest interest, int ID, int AccountID) {
         super(interest, ID);
         this.AccountID=AccountID;
@@ -42,8 +38,9 @@ public class Account extends Product implements Element {
 
     public void setCredit(Credit credit) {
         this.credit = credit;
-        investment.setHistory(new Operation(AccountID, Operation_Types.KREDYT, LocalDate.now(),"Wziecie kredytu", credit.GetBalance()));
-
+        if(credit != null) {
+            credit.setHistory(new Operation(AccountID, Operation_Types.KREDYT, LocalDate.now(), "Wziecie kredytu", credit.GetBalance()));
+        }
     }
     @Override
     public void setIncome(double temp) {

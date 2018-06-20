@@ -12,7 +12,7 @@ public class PayOfCredit implements Command {
 	@Override
 	public void execute(Account acc) {
 		acc.setPayment(amount);
-		acc.getCredit().setIncome(amount);
+		acc.getCredit().setPayment(amount);
 
 
 	}

@@ -23,6 +23,7 @@ public class GetCredit implements Command {
 	public void execute(Account account) {
 		// TODO Auto-generated method stub
 		account.setCredit(new Credit(interest, account.getAccountID(),duration , amount));
+		account.setBalance(account.GetBalance() + amount);
 	}
 
 }
